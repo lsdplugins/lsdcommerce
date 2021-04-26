@@ -38,6 +38,19 @@ services:
       MYSQL_ROOT_PASSWORD: ""
     networks:
       - "back"
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.0.1
+    restart: always
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: root
+      PMA_PASSWORD: ""
+    depends_on:
+      - "mysql"
+    networks:
+      - "back"
+    ports:
+      - "8080:80"
   proxy:
     image: "jwilder/nginx-proxy:alpine"
     ports:
