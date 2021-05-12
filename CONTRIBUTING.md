@@ -53,7 +53,7 @@ Kamu tidak akan bisa menambah plugin atau file karena akses yang dibatasi, untuk
 ```
 docker ps
 docker exec -it lsdcommerce_wordpress_1 bash
-chmod -R 777
+chmod -R 777 .
 ````
 
 Lalu simpan, dan sekarang kamu bisa menambah file, plugin, atau tema baru di instalasi wordpress kamu.
