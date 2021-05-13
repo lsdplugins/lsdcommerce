@@ -18,6 +18,7 @@ require_once $_tests_dir . '/includes/functions.php';
  */
 function _manually_load_plugin() {
 	require dirname( dirname( __FILE__ ) ) . '/lsdcommerce.php';
+	// require dirname( dirname( __FILE__ ) ) . '/wp-plugins/lsdcommerce-extension/lsdcommerce-extension.php'; // Support Testing Extension
 }
 tests_add_filter( 'muplugins_loaded', '_manually_load_plugin' );
 

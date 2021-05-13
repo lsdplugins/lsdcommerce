@@ -8,7 +8,7 @@
 /**
  * Main Test Case
  */
-class Test_Core extends WP_UnitTestCase {
+class TestCore extends WP_UnitTestCase {
 
 	/**
 	 * A single example test.
@@ -20,6 +20,7 @@ class Test_Core extends WP_UnitTestCase {
 
 	function test_version()
 	{
-		$this->assertEquals("0.0.2", LSDC_VERSION ); 
+		$this->assertEquals("0.0.1", LSDC_VERSION ); 
 	}
+
 }
