@@ -49,6 +49,7 @@ if (!version_compare(PHP_VERSION, '7.2', '>=')) {
 	}
 
 	require_once LSDC_PATH . 'middleware/plugin.php';   
+	\LSDCommerce\Plugin::load();
 }
 
 /**

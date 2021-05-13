@@ -16,6 +16,9 @@ services:
       - "back"
     volumes:
       - "wp:/var/www/html:rw"
+      - "./wp-plugins:/var/www/html/wp-content/plugins:rw"
+      - "./wp-themes:/var/www/html/wp-content/themes:rw"
+      - "./wp-content:/var/www/html/wp-content:rw"
       - ".:/var/www/html/wp-content/plugins/lsdcommerce:rw"
   wp-cli:
     image: "wordpress:cli-${WP_CLI_VERSION:-2.2.0}-php${PHP_VERSION:-7.3}"
@@ -29,6 +32,9 @@ services:
     volumes:
       - "wp:/var/www/html:rw"
       - "./bin/install-wp.sh:/usr/local/bin/install-wp:rw"
+      - "./wp-plugins:/var/www/html/wp-content/plugins:rw"
+      - "./wp-themes:/var/www/html/wp-content/themes:rw"
+      - "./wp-content:/var/www/html/wp-content:rw"
       - ".:/var/www/html/wp-content/plugins/lsdcommerce:rw"
   mysql:
     image: "mariadb:10.2"
@@ -50,7 +56,7 @@ services:
     networks:
       - "back"
     ports:
-      - "8080:80"
+      - "8888:80"
   proxy:
     image: "jwilder/nginx-proxy:alpine"
     ports:

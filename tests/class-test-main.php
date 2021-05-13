@@ -6,21 +6,20 @@
  */
 
 /**
- * Sample test case.
+ * Main Test Case
  */
-class TestCore extends WP_UnitTestCase {
+class Test_Core extends WP_UnitTestCase {
 
 	/**
 	 * A single example test.
 	 */
 	function test_main() {
 		// Replace this with some actual testing code.
-		$this->assertTrue( class_exists( 'LSDCommerce' ) );
+		$this->assertTrue( defined('LSDC_VERSION') );
 	}
 
-	function test_getCurrency()
+	function test_version()
 	{
-		$result = lsdc_currency_get();
-		$this->assertEquals("IDR", $result); 
+		$this->assertEquals("0.0.2", LSDC_VERSION ); 
 	}
 }
