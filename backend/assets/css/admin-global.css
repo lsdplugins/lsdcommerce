@@ -1,0 +1,23 @@
+#adminmenu .wp-menu-image img {
+    padding: 6px 0 0 0;
+}
+
+#toplevel_page_lsdcommerce img {
+    width: 24px;
+    margin: 5px !important;
+    padding: 0 !important;
+}
+
+ul.wp-submenu.wp-submenu-wrap {
+    margin: 0;
+}
+
+.notice a, .notice p {
+    font-size: 13px;
+    display: inline-block;
+}
+
+.column-image,
+.column-id {
+    width: 7% !important;
+}

@@ -3,7 +3,7 @@
  * Plugin Name:       LSDCommerce
  * Plugin URI:        https://lsdplugins.com/lsdcommerce/
  * Description:       Plugin Toko Online Indonesia.
- * Version:           0.0.1
+ * Version:           0.1.0
  * Author:            LSD Plugins
  * Author URI:        https://lsdplugins.com/
  * License:           GPL-3.0+
@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
  * Rename this for your plugin and update it as you release new versions.
  * Define Constant
  */
-defined('LSDC_VERSION') or define('LSDC_VERSION', '0.0.1');
+defined('LSDC_VERSION') or define('LSDC_VERSION', '0.1.0');
 defined('LSDC_BASE') or define('LSDC_BASE', plugin_basename(__FILE__));
 defined('LSDC_PATH') or define('LSDC_PATH', plugin_dir_path(__FILE__));
 defined('LSDC_URL') or define('LSDC_URL', plugin_dir_url(__FILE__));
@@ -48,8 +48,8 @@ if (!version_compare(PHP_VERSION, '7.2', '>=')) {
 		add_action('admin_notices', 'lsdc_developer_mode');
 	}
 
-	require_once LSDC_PATH . 'middleware/plugin.php';   
-	\LSDCommerce\Plugin::load();
+	require_once LSDC_PATH . 'includes/plugin.php';   
+	LSDCommerce\Plugin::load();
 }
 
 /**
@@ -118,4 +118,6 @@ if( get_option('lsdcommerce_mail_error') ){
 		echo wp_kses_post($html_message);
 	});
 }
+
+
 ?>

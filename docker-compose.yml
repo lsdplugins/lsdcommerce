@@ -9,11 +9,24 @@ services:
       WORDPRESS_DB_NAME: "wordpress"
       WORDPRESS_DB_PASSWORD: ""
       WORDPRESS_DB_USER: "root"
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'ALTERNATE_WP_CRON', true);
+        define( 'WP_DEBUG', true);
+        define( 'WP_DEBUG_LOG', 'wp-content/plugins/lsdcommerce/debug.log');
+        define( 'WP_DEBUG_DISPLAY', true );
+        define( 'FS_METHOD', 'direct');
+        define( 'WP_MEMORY_LIMIT', '512M');
+        define( 'WP_HOME', 'https://lsdcommerce.local' );
+        define( 'WP_SITEURL', 'https://lsdcommerce.local' );
+        define( 'WP_HTTP_BLOCK_EXTERNAL', false );
+        define( 'WP_ACCESSIBLE_HOSTS', 'api.wordpress.org,*.github.com' );
+    extra_hosts:
+      - "api.wordpress.org:66.155.40.202"
     depends_on:
       - "mysql"
     networks:
-      - "front"
-      - "back"
+      - "forntend"
+      - "backend"
     volumes:
       - "wp:/var/www/html:rw"
       - "./wp-plugins:/var/www/html/wp-content/plugins:rw"
@@ -28,7 +41,7 @@ services:
     depends_on:
       - "mysql"
     networks:
-      - "back"
+      - "backend"
     volumes:
       - "wp:/var/www/html:rw"
       - "./bin/install-wp.sh:/usr/local/bin/install-wp:rw"
@@ -43,7 +56,7 @@ services:
       MYSQL_DATABASE: "wordpress"
       MYSQL_ROOT_PASSWORD: ""
     networks:
-      - "back"
+      - "backend"
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:5.0.1
     restart: always
@@ -54,7 +67,7 @@ services:
     depends_on:
       - "mysql"
     networks:
-      - "back"
+      - "backend"
     ports:
       - "8888:80"
   proxy:
@@ -62,15 +75,15 @@ services:
     ports:
       - "80:80"
     networks:
-      front:
+      forntend:
         aliases:
           - "${DOCKER_DEV_DOMAIN:-lsdcommerce.local}"
     volumes:
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
 
 networks:
-  front: {}
-  back: {}
+  forntend: {}
+  backend: {}
 
 volumes:
   wp: {}
