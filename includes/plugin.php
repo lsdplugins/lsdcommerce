@@ -50,6 +50,7 @@ class Plugin
         // require_once LSDC_PATH . 'core/modules/utils/class-licenses.php';
         // TODO :: Server Timing for Performance
         require_once LSDC_PATH . 'includes/helpers/currency.php';
+        require_once LSDC_PATH . 'includes/helpers/price.php';
         // require_once LSDC_PATH . 'includes/modules/helpers/helpers.php';
         // require_once LSDC_PATH . 'includes/modules/helpers/cart.php';
         require_once LSDC_PATH . 'includes/common/class-i18n.php';

@@ -26,7 +26,10 @@
   [ ] Order PostTypes
   [ ] Design Pattern Multiple Storage Data { Custom Table and PostType }
 
-# 0.1.0 - 22 May 2021
+# 0.1.0 - 24 May 2021
+[+] Product Management
+  [+] Product Category
+  [+] Product Data
 [+] Admin Settings
   [+] Tampilan
     [ ] Opsi Extendable
@@ -36,7 +39,4 @@
   [ ] Pengiriman Extendable
   [ ] Pengaturan Extendable
   [+] Ekstensi
-[+] Product Management
-  [ ] Product Category
-  [ ] Product Data
 

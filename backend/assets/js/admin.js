@@ -30,7 +30,7 @@ function download_csv(csv, filename) {
 }
 
 function lsdd_currency_format(number, symbol = false) {
-	currency = lsdd_admin.currency;
+	currency = lsdc_admin.currency;
 
 	let currency_rule = [];
 	currency_rule['IDR'] = ['id-ID', 'Rp '];
@@ -151,7 +151,7 @@ function lsdd_pad(num, size) {
 		if (event.which >= 37 && event.which <= 40) return;
 
 		let separator = ".";
-		if (lsdd_admin.currency == 'USD') separator = ",";
+		if (lsdc_admin.currency == 'USD') separator = ",";
 
 		// currency_validate
 		$(this).val(function (index, value) {
@@ -207,7 +207,7 @@ function lsdd_pad(num, size) {
 	//=============== Admin - Store ===============//
 	$(document).on("change", "#country", function (e) {
 
-		$.get(lsdd_admin.plugin_url + 'assets/cache/' + $(this).val() + '-states.json', function (data, status) {
+		$.get(lsdc_admin.plugin_url + 'assets/cache/' + $(this).val() + '-states.json', function (data, status) {
 			// alert("Data: " + data + "\nStatus: " + status);
 			console.log(data);
 			$("#states option").remove();
@@ -221,7 +221,7 @@ function lsdd_pad(num, size) {
 	});
 
 	$(document).on("change", "#states", function (e) {
-		$.get(lsdd_admin.plugin_url + 'assets/cache/' + $('#country').find(":selected").val() + '-cities.json', function (data, status) {
+		$.get(lsdc_admin.plugin_url + 'assets/cache/' + $('#country').find(":selected").val() + '-cities.json', function (data, status) {
 			$("#cities option").remove();
 			$.each(data, function (i, value) {
 				if ($('#states').find(":selected").val() == value.province_id) {
@@ -232,7 +232,7 @@ function lsdd_pad(num, size) {
 		});
 	});
 
-	$(document).on("click", "#lsdd_admin_store_save", function (e) {
+	$(document).on("click", "#lsdc_admin_store_save", function (e) {
 		$(this).addClass('loading');
 		var that = this;
 
@@ -244,10 +244,10 @@ function lsdd_pad(num, size) {
 		store['lsdd_store_postalcode'] = $('#postalcode').val();
 		store['lsdd_store_currency'] = $('#currency').find(":selected").val();
 
-		// $.post( lsdd_admin.ajax_url, { 
-		// 	action : 'lsdd_admin_store_save',
+		// $.post( lsdc_admin.ajax_url, { 
+		// 	action : 'lsdc_admin_store_save',
 		// 	store : store,
-		// 	security : lsdd_admin.ajax_nonce,
+		// 	security : lsdc_admin.ajax_nonce,
 		// 	}, function( response ){
 		// 		if( response.trim() == 'action_success' ){
 		// 			$(that).removeClass('loading');
@@ -263,10 +263,10 @@ function lsdd_pad(num, size) {
 		$(this).addClass('loading');
 		var that = this;
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_appearance_save',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_appearance_save',
 			appearance: $("#appearance form").serialize(),
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				$(that).removeClass('loading');
@@ -284,11 +284,11 @@ function lsdd_pad(num, size) {
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_payment_status',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_payment_status',
 			id: id,
 			state: state,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				// give feedback
@@ -342,12 +342,12 @@ function lsdd_pad(num, size) {
 		var method = $(this).attr('method');
 
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_payment_settings',
 			method: method,
 			id: id,
 			serialize: serialize,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				// $(that).removeClass('loading');
@@ -363,7 +363,7 @@ function lsdd_pad(num, size) {
 	// Handle Upload Image
 	var file_frame;
 	var attachment;
-	$(document).on("click", ".lsdd_admin_upload", function (event) {
+	$(document).on("click", ".lsdc_admin_upload", function (event) {
 		event.preventDefault();
 		var that = this;
 		var frame = file_frame;
@@ -396,11 +396,11 @@ function lsdd_pad(num, size) {
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_notification_status',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_notification_status',
 			id: id,
 			state: state,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				// give feedback
@@ -418,11 +418,11 @@ function lsdd_pad(num, size) {
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_shipping_status',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_shipping_status',
 			id: id,
 			state: state,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				// give feedback
@@ -435,15 +435,15 @@ function lsdd_pad(num, size) {
 
 	//=============== Admin - Settings ===============//
 
-	$(document).on("click", "#lsdd_admin_settings_save", function (e) {
+	$(document).on("click", "#lsdc_admin_settings_save", function (e) {
 		e.preventDefault();
 		$(this).addClass('loading');
 		var that = this;
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_settings_save',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_settings_save',
 			settings: $("#settings form").serialize(),
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				$(that).removeClass('loading');
@@ -456,7 +456,7 @@ function lsdd_pad(num, size) {
 	});
 
 	// ============= Admin - General Save Settings ============= //
-	$(document).on("click", ".lsdd_admin_option_save", function (e) {
+	$(document).on("click", ".lsdc_admin_option_save", function (e) {
 		e.preventDefault();
 		$(this).addClass('loading');
 		var that = this;
@@ -464,12 +464,12 @@ function lsdd_pad(num, size) {
 		var data = $(this).closest('form').serialize();
 		var block = $(this).closest('form').attr('block');
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_option_save',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_option_save',
 			option: option,
 			settings: data,
 			block: block,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				$(that).removeClass('loading');
@@ -486,10 +486,10 @@ function lsdd_pad(num, size) {
 		var that = this;
 		console.log($("#settings form").serialize());
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_institution_settings_save',
 			settings: $("#settings form").serialize(),
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {
 				$(that).removeClass('loading');
@@ -509,11 +509,11 @@ function lsdd_pad(num, size) {
 		$(this).addClass('loading');
 		var that = $(this);
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_report_action',
 			act: 'completed',
 			id: id,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			console.log(response);
 			if (response.trim() == 'action_success') {
@@ -527,16 +527,16 @@ function lsdd_pad(num, size) {
 	// ------------------- Report - Delete ----------------------//
 
 	$(document).on("click", ".lsdd_report_delete", function () {
-		if (confirm(lsdd_admin.translation.delete_report)) {
+		if (confirm(lsdc_admin.translation.delete_report)) {
 			let id = $(this).closest('.action').attr('id');
 			$(this).addClass('loading');
 			var that = $(this);
 
-			$.post(lsdd_admin.ajax_url, {
+			$.post(lsdc_admin.ajax_url, {
 				action: 'lsdd_report_action',
 				act: 'delete',
 				id: id,
-				security: lsdd_admin.ajax_nonce,
+				security: lsdc_admin.ajax_nonce,
 			}, function (response) {
 				if (response.trim() == 'action_success') {
 					that.closest('tr').remove();
@@ -561,11 +561,11 @@ function lsdd_pad(num, size) {
 			$('.panel-title').text('Edit Report #' + id);
 		}
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_report_action',
 			act: 'read',
 			id: id,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			var data = $.parseJSON(response)[0];
 
@@ -599,7 +599,7 @@ function lsdd_pad(num, size) {
 		$(this).addClass('loading');
 
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_report_action',
 			act: 'update',
 			id: id,
@@ -609,7 +609,7 @@ function lsdd_pad(num, size) {
 				'status': report_editor.find('.panel-body #status').val(),
 				'date': report_editor.find('.panel-body #date').val()
 			},
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 
 			if (response.trim() == 'action_success') {
@@ -677,11 +677,11 @@ function lsdd_pad(num, size) {
 		$(this).text('...');
 		var that = this;
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_report_bulk_action',
 			act: $(this).attr('id'),
 			data: $(this).attr('data-id'),
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 
 			if (response.trim() == 'action_success') {
@@ -698,10 +698,10 @@ function lsdd_pad(num, size) {
 		let filter = $(this).prev('select').find(":selected").val();
 		var that = this;
 
-		$.post(lsdd_admin.ajax_url, {
+		$.post(lsdc_admin.ajax_url, {
 			action: 'lsdd_report_export_action',
 			filter: filter,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			var data = $.parseJSON(response);
 			console.log(data);
@@ -772,10 +772,10 @@ function lsdd_pad(num, size) {
 						newRows.push(newRow); // Put Row 
 					}
 					// Sending Data Import
-					$.post(lsdd_admin.ajax_url, {
+					$.post(lsdc_admin.ajax_url, {
 						action: 'lsdd_report_import_action',
 						data: JSON.stringify(newRows),
-						security: lsdd_admin.ajax_nonce,
+						security: lsdc_admin.ajax_nonce,
 					}, function (response) {
 
 						response = JSON.parse(response);
@@ -829,13 +829,13 @@ function lsdd_pad(num, size) {
 
 		if (inputKey.val() != '') {
 			$(this).addClass('loading');
-			$.post(lsdd_admin.ajax_url, {
+			$.post(lsdc_admin.ajax_url, {
 
 				action: 'lsdd_license_register',
 				key: $(this).closest('.card-header').find('input.lsdd-license-key').val(),
 				type: $(this).attr('data-type'),
 				id: $(this).attr('data-id'),
-				security: lsdd_admin.ajax_nonce,
+				security: lsdc_admin.ajax_nonce,
 
 			}, function (response) {
 
@@ -865,10 +865,10 @@ function lsdd_pad(num, size) {
 
 		let id = $(this).parent().siblings().val();
 
-		$.post(lsdd_admin.ajax_url, {
-			action: 'lsdd_admin_get_invoice',
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_get_invoice',
 			id: id,
-			security: lsdd_admin.ajax_nonce,
+			security: lsdc_admin.ajax_nonce,
 		}, function (res) {
 			var name = res.data[0].name.toLowerCase();
 			$('#pad_invoice').html(lsdd_pad(res.data[0].report_id, 7));

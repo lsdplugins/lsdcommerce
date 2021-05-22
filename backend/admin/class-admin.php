@@ -158,6 +158,7 @@ class Admin
         if (isset($_GET['page'])) {
             if ($_GET['page'] == 'lsdcommerce' || strpos($_GET['page'], 'lsdc-') !== false) {
                 // wp_enqueue_style('select2', LSDC_URL . 'assets/lib/select2/select2.min.css', array(), '4.1.0', 'all');
+
                 wp_enqueue_style('spectre-exp', LSDC_URL . 'backend/assets/lib/spectre/spectre-exp.min.css', array(), '0.5.8', 'all');
                 wp_enqueue_style('spectre-icons', LSDC_URL . 'backend/assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all');
                 wp_enqueue_style('spectre', LSDC_URL . 'backend/assets/lib/spectre/spectre.min.css', array(), '0.5.8', 'all');
@@ -165,6 +166,10 @@ class Admin
                 wp_enqueue_style( $this->slug, LSDC_URL . 'backend/assets/css/admin-settings' . $dev_css, array(), $this->version, 'all');
                 wp_enqueue_style('wp-color-picker');
             }
+        }
+
+        if( strpos(get_post_type( get_the_ID() ), 'lsdc-') !== false ){
+            wp_enqueue_style( $this->slug . '-product', LSDC_URL . 'backend/assets/css/admin-product' . $dev_css, array(), $this->version, 'all');
         }
 
         // Global Admin Styles
@@ -179,15 +184,10 @@ class Admin
     public function enqueue_scripts()
     {
         // $dev_js = WP_DEBUG == true ? '.js' : '-min.js';
-
         $dev_js = '.js';
-        // wp_register_script('select2', LSDC_URL . 'assets/lib/select2/select2.min.js', array('jquery'), '4.1.0', false);
 
         // Load Lib Admin Restrict only LSDCommerce Page
         if (isset($_GET['page']) && $_GET['page'] == 'lsdcommerce' || strpos(get_post_type( get_the_ID() ), 'lsdc-') !== false || isset($_GET['page']) && strpos($_GET['page'], 'lsdc-') !== false) {
-            // wp_enqueue_script('repeater');
-            // wp_enqueue_script('select2');
-            
             // Load Admin Js
             wp_enqueue_script($this->slug, LSDC_URL . 'backend/assets/js/admin' . $dev_js, array('jquery', 'wp-color-picker'), $this->version, false);
             wp_localize_script($this->slug, 'lsdc_admin', array(
