@@ -1,0 +1,139 @@
+[
+    {
+        "city_id": "1",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "New York",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "2",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Buffalo",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "3",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Rochester",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "4",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Yonkers",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "5",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Syracuse",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "6",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Albany",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "7",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "New Rochelle",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "8",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Mount Vernon",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "9",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Schenectady",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "10",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Utica",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "11",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "White Plains",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "12",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Hempstead",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "13",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Troy",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "14",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Niagara Falls",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "15",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Binghamton",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "16",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Freeport",
+        "type": "",
+        "postal_code": ""
+    },
+    {
+        "city_id": "17",
+        "province_id": "NY",
+        "province": "New York",
+        "city_name": "Valley Stream",
+        "type": "",
+        "postal_code": ""
+    }
+]
+

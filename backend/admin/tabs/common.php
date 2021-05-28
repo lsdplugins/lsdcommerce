@@ -17,13 +17,13 @@ if (!defined('ABSPATH')) {
  * set default to Institution page
  */
 if (isset($_GET["tab"])) {
-    if (htmlentities($_GET["tab"], ENT_QUOTES) == "appearance") {
-        $active_tab = "appearance";
+    if (htmlentities($_GET["tab"], ENT_QUOTES) == "store") {
+        $active_tab = "store";
     } else {
         $active_tab = htmlentities($_GET["tab"], ENT_QUOTES);
     }
 } else {
-    $active_tab = "appearance";
+    $active_tab = "store";
 }
 ?>
 
@@ -69,7 +69,7 @@ if (isset($_GET["tab"])) {
             require_once 'extensions.php';
         }
     } else { //Fallback
-        require_once 'appearance.php';
+        require_once 'store.php';
     }
     ?>
     </article>

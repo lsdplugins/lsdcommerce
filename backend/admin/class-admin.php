@@ -65,7 +65,7 @@ class Admin
                 
         // Load Required File
         require_once LSDC_PATH . 'backend/admin/tabs.php';
-        // require_once LSDC_PATH . 'backend/admin/class-ajax.php';
+        require_once LSDC_PATH . 'backend/admin/class-ajax.php';
         // require_once LSDC_PATH . 'backend/admin/class-autosetup.php';
         // require_once LSDC_PATH . 'backend/admin/class-dashboard.php';
         // require_once LSDC_PATH . 'backend/admin/class-updater.php';
@@ -109,37 +109,6 @@ class Admin
             update_option('lsdcommerce_mail_error', false);
             header("Refresh:0; url=" . get_admin_url());
         }
-
-        // Displaying Admin Notice Inside Post Type Products
-        // if (isset($_GET['post_type']) && $_GET['post_type'] == 'lsdc-product') {
-        //     add_action('admin_notices', function () {
-        //         $message = esc_html__('Program Donation only can display via shortcode, if you want more detail and measurable you can use', 'lsdcommerce');
-        //         $html_message = sprintf('<div class="notice notice-info">%s <a href="%s" target="_blank">' . __('LSDCommerce - Campaign', 'lsdcommerce') . '</a> extension </div>', wpautop($message), 'https://demo.lsdplugins.com/lsdcommerce-campaign/');
-        //         echo wp_kses_post($html_message);
-        //     });
-        // }
-
-        // Add Shortcode List to wp-admin > LSDCommerce > Appearence
-        // require_once LSDC_PATH . 'core/admin/class-shortcode-lists.php';
-
-        // # Add Shortcode List ( string slug, string title, array args )
-        // Admin\Shortcode_Lists::addShortcodeList('lsdcommerce', 'LSDCommerce', array(
-        //     ['shortcode' => '[lsdcommerce]', 'description' => __("Displays a List of Donation Products", 'lsdcommerce')],
-        //     ['shortcode' => '[lsdcommerce product_id="21"]', 'description' => __("Displays a List of Donation based on Program ID", 'lsdcommerce')],
-        //     ['shortcode' => '[lsdcommerce_payment product_id="21"]', 'description' => __("Embed Payment with Program ID", 'lsdcommerce')],
-        //     // ['shortcode' => '[lsdcommerce_payment product_id="21" nominal="10000" payment_id="custombankone" ]', 'description' => __("Embed Payment with Program ID", 'lsdcommerce')],
-        //     ['shortcode' => '[lsdcommerce count="donors/completed/products"]', 'description' => __("Displays the Donors, Completed Donation or Products", 'lsdcommerce')],
-        // ));
-
-        // // Add Switch Options to wp-admin > LSDCommerce > Appearence
-        // require_once LSDC_PATH . 'core/admin/class-switch-options.php';
-        // // # Add Options ( string slug, string title, array args )
-        // Admin\Switch_Options::addOptions('lsdcommerce', __('LSDCommerce', 'lsdcommerce'), array(
-        //     'lsdc_unique_code' => ['name' => __('Unique Code', 'lsdcommerce'), 'desc' => __('On Off Unique Code in Payment', 'lsdcommerce'), 'override' => false],
-        //     'lsdc_unique_code_minus' => ['name' => __('Minus Unique Code', 'lsdcommerce'), 'desc' => __('Subtract the total with a unique code', 'lsdcommerce'), 'override' => false],
-        //     'lsdc_popup_notification' => ['name' => __('Popup Notification', 'lsdcommerce'), 'desc' => __('Display Popup Notification', 'lsdcommerce'), 'override' => false],
-        //     'lsdc_manual_nominal' => ['name' => __('Nominal Input Manually', 'lsdcommerce'), 'desc' => __('On Off Nominal Input Manual in Payment', 'lsdcommerce'), 'override' => false],
-        // ));
 
         // Register Post Type
         require_once LSDC_PATH . 'includes/common/class-posttype-product.php';
@@ -274,6 +243,20 @@ class Admin
             'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product', 
             ''
         );
+
+        // Add Shortcode List to wp-admin > LSDCommerce > Appearence
+        require_once LSDC_PATH . 'backend/admin/class-shortcode-lists.php';
+        Admin\Shortcode_Lists::addShortcodeList( $this->slug, $this->name, array(
+            ['shortcode' => '[lsdcommerce_products]', 'description' => __("Menampilkan Produk", 'lsdcommerce')],
+            ['shortcode' => '[lsdcommerce_checkout]', 'description' => __("Menampilkan Pembayaran", 'lsdcommerce')],
+        ));
+
+        // Add Switch Options to wp-admin > LSDDonation > Appearence
+        require_once LSDC_PATH . 'backend/admin/class-switch-options.php';
+        Admin\Switch_Options::addOptions( $this->slug, $this->name, array(
+            'lsdc_unique_code' => ['name' => __('Kode Unik', 'lsdcommerce'), 'desc' => __('Matikan/Hidupkan Kode Unik', 'lsdcommerce'), 'override' => false],
+        ));
+        
     }
 
     /**

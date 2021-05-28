@@ -20,13 +20,11 @@ if (!defined('ABSPATH')) {
             $page_query = new WP_Query(array('posts_per_page' => -1, 'post_type' => 'page', 'post_status' => 'publish'));
 
             $payment_page = empty($settings['payment_page']) ? '' : abs($settings['payment_page']);
-            // $currency_selected = isset($settings['currency']) ? esc_attr($settings['currency']) : 'IDR';
-            $report_permission = isset($settings['report_permission']) ? (array) $settings['report_permission'] : array();
 
             $payment_instruction = isset($settings['payment_instruction']) ? esc_attr($settings['payment_instruction']) : '';
             $payment_confirmation = isset($settings['payment_confirmation']) ? esc_url($settings['payment_confirmation']) : '';
 
-            $currency = strtolower(lsdc_get_currency());
+            $currency_selected = lsdc_get_currency();
         ?>
 
         <!-- Payment Url -->
@@ -72,7 +70,7 @@ if (!defined('ABSPATH')) {
             </div>
         </div> -->
 
-        <div class="divider" data-content="<?php _e('Nominal and Confirmation', 'lsdcommerce');?>"></div>
+        <div class="divider" data-content="<?php _e('Confirmation', 'lsdcommerce');?>"></div>
 
         <div class="form-group">
             <div class="col-3 col-sm-12">

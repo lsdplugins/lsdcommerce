@@ -57,6 +57,10 @@ function lsdd_tab_lists(){
 /**
  * Default Admin Tabs
  */
+lsdd_add_tab_settings( 'store', __('Toko', 'lsdcommerce'), function () {
+    require_once 'tabs/store.php';
+});
+
 lsdd_add_tab_settings( 'appearance', __('Tampilan', 'lsdcommerce'), function () {
     require_once 'tabs/appearance.php';
 });

@@ -479,16 +479,16 @@ function lsdd_pad(num, size) {
 		});
 	});
 
-	// =================== Institution Settings =================== //
-	$(document).on("click", "#lsdd_institution_settings_save", function (e) {
+	// =================== Store Settings =================== //
+	$(document).on("click", "#lsdcommerce_store_save", function (e) {
 		e.preventDefault();
 		$(this).addClass('loading');
 		var that = this;
-		console.log($("#settings form").serialize());
+		console.log($("#store form").serialize());
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_institution_settings_save',
-			settings: $("#settings form").serialize(),
+			action: 'lsdcommerce_store_save',
+			settings: $("#store form").serialize(),
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
 			if (response.trim() == 'action_success') {

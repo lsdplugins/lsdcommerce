@@ -118,10 +118,10 @@ class Switch_Options
             </div>
             <div class="col-4 col-sm-12">
                 <select class="form-select" id="fontlist" name="lsdc_theme_font">
-                    <option>Poppins</option>
+                    <option>Rubik</option>
                 </select>
                 <div id="selectedfont" class="hidden">
-                    <?php echo !isset($settings['lsdc_theme_font']) ? 'Poppins' : esc_attr($settings['lsdc_theme_font']); ?>
+                    <?php echo !isset($settings['lsdc_theme_font']) ? 'Rubik' : esc_attr($settings['lsdc_theme_font']); ?>
                 </div>
             </div>
         </div>
@@ -153,7 +153,7 @@ class Switch_Options
         <!-- Theme Color -->
         <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="theme-color"><?php _e('Theme Color', 'lsdcommerce'); ?></label>
+                <label class="form-label" for="theme-color"><?php _e('Warna Tema', 'lsdcommerce'); ?></label>
             </div>
             <div class="col-9 col-sm-12" style="height: 10px !important;">
                 <input type="text" name="lsdc_theme_color" value="<?php echo isset($settings['lsdc_theme_color']) ? esc_attr($settings['lsdc_theme_color']) : '#ff0000'; ?>" class="lsdd-color-picker">
@@ -163,7 +163,7 @@ class Switch_Options
 
         <!-- DIsplay Switch Options -->
         <?php foreach ( array_reverse($this->listOptions()) as $key => $optionGroup) : ?>
-            <div class="divider" data-content="<?php echo esc_attr($optionGroup['title']); ?> <?php _e('Options', 'lsdcommerce'); ?>"></div>
+            <div class="divider" data-content="<?php _e('Opsi', 'lsdcommerce'); ?> <?php echo esc_attr($optionGroup['title']); ?> "></div>
             <ul class="general-menu">
                 <?php foreach ($optionGroup['options'] as $key => $option) : ?>
                     <?php if (isset($settings[$key])) : #Option Exist

@@ -113,6 +113,62 @@ class Shortcode_Lists
                     border-bottom: 1px solid #ddd;
                     padding-bottom: 5px;
                 }
+
+                /* Load Container CSS */
+                .load-more-container {
+                background: #fff;
+                margin: 20px auto;
+                position: relative;
+                }
+
+                .load-more-container ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 10px 0 0;
+                margin-left: 0;
+                }
+
+                .load-more-container ul:after {
+                content: "";
+                display: table;
+                clear: both;
+                }
+
+                .load-more-container ul li {
+                width: 100%;
+                margin: 0;
+                float: left;
+                border-radius: 2px;
+                }
+
+                .load-more-container ul li:nth-child(1n + 5) {
+                max-height: 0;
+                opacity: 0;
+                transition: 0.1s ease-in;
+                }
+
+                .load-more-container .load-more-btn .loaded {
+                display: none;
+                }
+
+                /* Apperance Load More */
+                .load-more-container #load-shortcode-lsdd {
+                display: none;
+                }
+
+                .load-more-container #load-shortcode-lsdd:checked~ul li:nth-child(1n + 5) {
+                max-height: 999px;
+                opacity: 1;
+                transition: 0.2s ease-in;
+                }
+
+                .load-more-container #load-shortcode-lsdd:checked~.load-more-btn .loaded {
+                display: block;
+                }
+
+                .load-more-container #load-shortcode-lsdd:checked~.load-more-btn .unloaded {
+                display: none;
+                }
             </style>
 
             <div class="load-more-container">

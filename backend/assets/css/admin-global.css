@@ -12,7 +12,8 @@ ul.wp-submenu.wp-submenu-wrap {
     margin: 0;
 }
 
-.notice a, .notice p {
+.notice a,
+.notice p {
     font-size: 13px;
     display: inline-block;
 }
@@ -20,4 +21,16 @@ ul.wp-submenu.wp-submenu-wrap {
 .column-image,
 .column-id {
     width: 7% !important;
+}
+
+.p-zero {
+    padding: 0;
+}
+
+.m-zero {
+    margin: 0;
+}
+
+.w-120 {
+    width: 120px;
 }

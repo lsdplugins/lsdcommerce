@@ -1,0 +1,238 @@
+[
+    {
+        "province": "Alabama",
+        "province_id": "AL"
+    },
+    {
+        "province": "Alaska",
+        "province_id": "AK"
+    },
+    {
+        "province": "American Samoa",
+        "province_id": "AS"
+    },
+    {
+        "province": "Arizona",
+        "province_id": "AZ"
+    },
+    {
+        "province": "Arkansas",
+        "province_id": "AR"
+    },
+    {
+        "province": "California",
+        "province_id": "CA"
+    },
+    {
+        "province": "Colorado",
+        "province_id": "CO"
+    },
+    {
+        "province": "Connecticut",
+        "province_id": "CT"
+    },
+    {
+        "province": "Delaware",
+        "province_id": "DE"
+    },
+    {
+        "province": "District Of Columbia",
+        "province_id": "DC"
+    },
+    {
+        "province": "Federated States Of Micronesia",
+        "province_id": "FM"
+    },
+    {
+        "province": "Florida",
+        "province_id": "FL"
+    },
+    {
+        "province": "Georgia",
+        "province_id": "GA"
+    },
+    {
+        "province": "Guam",
+        "province_id": "GU"
+    },
+    {
+        "province": "Hawaii",
+        "province_id": "HI"
+    },
+    {
+        "province": "Idaho",
+        "province_id": "ID"
+    },
+    {
+        "province": "Illinois",
+        "province_id": "IL"
+    },
+    {
+        "province": "Indiana",
+        "province_id": "IN"
+    },
+    {
+        "province": "Iowa",
+        "province_id": "IA"
+    },
+    {
+        "province": "Kansas",
+        "province_id": "KS"
+    },
+    {
+        "province": "Kentucky",
+        "province_id": "KY"
+    },
+    {
+        "province": "Louisiana",
+        "province_id": "LA"
+    },
+    {
+        "province": "Maine",
+        "province_id": "ME"
+    },
+    {
+        "province": "Marshall Islands",
+        "province_id": "MH"
+    },
+    {
+        "province": "Maryland",
+        "province_id": "MD"
+    },
+    {
+        "province": "Massachusetts",
+        "province_id": "MA"
+    },
+    {
+        "province": "Michigan",
+        "province_id": "MI"
+    },
+    {
+        "province": "Minnesota",
+        "province_id": "MN"
+    },
+    {
+        "province": "Mississippi",
+        "province_id": "MS"
+    },
+    {
+        "province": "Missouri",
+        "province_id": "MO"
+    },
+    {
+        "province": "Montana",
+        "province_id": "MT"
+    },
+    {
+        "province": "Nebraska",
+        "province_id": "NE"
+    },
+    {
+        "province": "Nevada",
+        "province_id": "NV"
+    },
+    {
+        "province": "New Hampshire",
+        "province_id": "NH"
+    },
+    {
+        "province": "New Jersey",
+        "province_id": "NJ"
+    },
+    {
+        "province": "New Mexico",
+        "province_id": "NM"
+    },
+    {
+        "province": "New York",
+        "province_id": "NY"
+    },
+    {
+        "province": "North Carolina",
+        "province_id": "NC"
+    },
+    {
+        "province": "North Dakota",
+        "province_id": "ND"
+    },
+    {
+        "province": "Northern Mariana Islands",
+        "province_id": "MP"
+    },
+    {
+        "province": "Ohio",
+        "province_id": "OH"
+    },
+    {
+        "province": "Oklahoma",
+        "province_id": "OK"
+    },
+    {
+        "province": "Oregon",
+        "province_id": "OR"
+    },
+    {
+        "province": "Palau",
+        "province_id": "PW"
+    },
+    {
+        "province": "Pennsylvania",
+        "province_id": "PA"
+    },
+    {
+        "province": "Puerto Rico",
+        "province_id": "PR"
+    },
+    {
+        "province": "Rhode Island",
+        "province_id": "RI"
+    },
+    {
+        "province": "South Carolina",
+        "province_id": "SC"
+    },
+    {
+        "province": "South Dakota",
+        "province_id": "SD"
+    },
+    {
+        "province": "Tennessee",
+        "province_id": "TN"
+    },
+    {
+        "province": "Texas",
+        "province_id": "TX"
+    },
+    {
+        "province": "Utah",
+        "province_id": "UT"
+    },
+    {
+        "province": "Vermont",
+        "province_id": "VT"
+    },
+    {
+        "province": "Virgin Islands",
+        "province_id": "VI"
+    },
+    {
+        "province": "Virginia",
+        "province_id": "VA"
+    },
+    {
+        "province": "Washington",
+        "province_id": "WA"
+    },
+    {
+        "province": "West Virginia",
+        "province_id": "WV"
+    },
+    {
+        "province": "Wisconsin",
+        "province_id": "WI"
+    },
+    {
+        "province": "Wyoming",
+        "province_id": "WY"
+    }
+]
