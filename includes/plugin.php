@@ -47,13 +47,12 @@ class Plugin
         /*************** GLOBAL /****************/
         // TODO :: Cleanup Helper Function
         // require_once LSDC_PATH . 'core/modules/utils/class-logger.php';
-        // require_once LSDC_PATH . 'core/modules/utils/class-licenses.php';
+        require_once LSDC_PATH . 'includes/common/class-i18n.php';
         // TODO :: Server Timing for Performance
         require_once LSDC_PATH . 'includes/helpers/currency.php';
         require_once LSDC_PATH . 'includes/helpers/price.php';
-        // require_once LSDC_PATH . 'includes/modules/helpers/helpers.php';
-        // require_once LSDC_PATH . 'includes/modules/helpers/cart.php';
-        require_once LSDC_PATH . 'includes/common/class-i18n.php';
+        require_once LSDC_PATH . 'includes/helpers/getter.php';
+ 
         // require_once LSDC_PATH . 'includes/common/class-usages.php';
         
         // Load FrontEnd Class [Only for FrontEnd Needs]
@@ -62,11 +61,20 @@ class Plugin
             Admin::register( self::$slug, self::$name, self::$version );
         }
 
-        // Registrar
-        // require_once LSDC_PATH . 'includes/abstracts/class-notification-registrar.php';
-        // require_once LSDC_PATH . 'includes/abstracts/class-payment-registrar.php';
-        // require_once LSDC_PATH . 'includes/abstracts/class-form-registrar.php'
+        // Registrar Module
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-notification.php';
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-payment.php';
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-shipping.php';
 
+        // Module Notification
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-whatsapp.php';
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-email.php';
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-webhook.php';
+
+        // Module Payments
+        require_once LSDC_PATH . 'backend/modules/payments/class-payment-static-qr.php';
+        require_once LSDC_PATH . 'backend/modules/payments/class-payment-shopee-md.php';
+        // require_once LSDC_PATH . 'backend/modules/payments/class-payment-transfer-bank.php';
         // Load Notification Services
         // require_once LSDC_PATH . '/core/services/scheduler/scheduler.php';
 

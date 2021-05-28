@@ -29,7 +29,7 @@ function download_csv(csv, filename) {
 	document.body.removeChild(downloadLink);
 }
 
-function lsdd_currency_format(number, symbol = false) {
+function lsdc_currency_format(number, symbol = false) {
 	currency = lsdc_admin.currency;
 
 	let currency_rule = [];
@@ -55,7 +55,7 @@ function lsdd_currency_format(number, symbol = false) {
 
 }
 
-function lsdd_date_now() {
+function lsdc_date_now() {
 	var date = new Date();
 	var month = ('0' + (date.getMonth() + 1)).slice(-2);
 	var day = ('0' + date.getDate()).slice(-2);
@@ -68,7 +68,7 @@ function lsdd_date_now() {
  * @param string name 
  * @param url url 
  */
-function lsdd_get_url_param(name, url = window.location.href) {
+function lsdc_get_url_param(name, url = window.location.href) {
 	name = name.replace(/[\[\]]/g, '\\$&');
 	var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
 		results = regex.exec(url);
@@ -86,7 +86,7 @@ String.prototype.ucwords = function () {
 		});
 }
 
-function lsdd_pad(num, size) {
+function lsdc_pad(num, size) {
 	num = num.toString();
 	while (num.length < size) num = "0" + num;
 	return num;
@@ -107,19 +107,19 @@ function lsdd_pad(num, size) {
 	 * Only Load in Tab Apperance
 	 * Checking Google Font Cache
 	 */
-	if (lsdd_get_url_param('tab') == 'appearance') {
-		if (localStorage.getItem("lsdd_font_cache") == null || localStorage.getItem("lsdd_font_cache") == '') {
+	if (lsdc_get_url_param('tab') == 'appearance') {
+		if (localStorage.getItem("lsdc_font_cache") == null || localStorage.getItem("lsdc_font_cache") == '') {
 			jQuery.getJSON("https://www.googleapis.com/webfonts/v1/webfonts?key=AIzaSyCoDdOKhPem_sbA-bDgJ_-4cVhJyekWk-U", function (fonts) {
-				var lsdd_font_cache = {};
+				var lsdc_font_cache = {};
 				for (var i = 0; i < fonts.items.length; i++) {
-					lsdd_font_cache[fonts.items[i].family] = fonts.items[i].files.regular;
+					lsdc_font_cache[fonts.items[i].family] = fonts.items[i].files.regular;
 				}
-				localStorage.setItem("lsdd_font_cache", JSON.stringify(lsdd_font_cache));
+				localStorage.setItem("lsdc_font_cache", JSON.stringify(lsdc_font_cache));
 			});
 		} else {
-			var lsdd_font_cache = JSON.parse(localStorage.getItem("lsdd_font_cache"));
+			var lsdc_font_cache = JSON.parse(localStorage.getItem("lsdc_font_cache"));
 			var selectedfont = jQuery('#selectedfont').text();
-			jQuery.each(lsdd_font_cache, function (index, value) {
+			jQuery.each(lsdc_font_cache, function (index, value) {
 				jQuery('#fontlist')
 					.remove("option")
 					.append(jQuery((index == selectedfont) ? "<option selected></option>" : "<option></option>")
@@ -131,13 +131,13 @@ function lsdd_pad(num, size) {
 	}
 
 	$(function () {
-		$('.lsdd-color-picker').wpColorPicker();
-		$(".lsdd-email-picker").wpColorPicker({
+		$('.lsdc-color-picker').wpColorPicker();
+		$(".lsdc-email-picker").wpColorPicker({
 			change: function (event, ui) {
 				var element = event.target;
 				var color = ui.color.toString();
 				var type = $(element).attr('data-type');
-				$('#lsdd-editor-' + type).find('table[role="presentation"]:first').css('background', color);
+				$('#lsdc-editor-' + type).find('table[role="presentation"]:first').css('background', color);
 			}
 		});
 	});
@@ -237,12 +237,12 @@ function lsdd_pad(num, size) {
 		var that = this;
 
 		let store = {};
-		store['lsdd_store_country'] = $('#country').find(":selected").val();
-		store['lsdd_store_state'] = $('#states').find(":selected").val();
-		store['lsdd_store_city'] = $('#cities').find(":selected").val();
-		store['lsdd_store_address'] = $('#address').val();
-		store['lsdd_store_postalcode'] = $('#postalcode').val();
-		store['lsdd_store_currency'] = $('#currency').find(":selected").val();
+		store['lsdc_store_country'] = $('#country').find(":selected").val();
+		store['lsdc_store_state'] = $('#states').find(":selected").val();
+		store['lsdc_store_city'] = $('#cities').find(":selected").val();
+		store['lsdc_store_address'] = $('#address').val();
+		store['lsdc_store_postalcode'] = $('#postalcode').val();
+		store['lsdc_store_currency'] = $('#currency').find(":selected").val();
 
 		// $.post( lsdc_admin.ajax_url, { 
 		// 	action : 'lsdc_admin_store_save',
@@ -259,7 +259,7 @@ function lsdd_pad(num, size) {
 
 	//=============== Admin - Appearance ===============//
 
-	$(document).on("click", "#lsdd-admin-apperance-save", function (e) {
+	$(document).on("click", "#lsdc-admin-apperance-save", function (e) {
 		$(this).addClass('loading');
 		var that = this;
 
@@ -279,7 +279,7 @@ function lsdd_pad(num, size) {
 	//=============== Admin - Payments ===============//
 
 	// Enabled
-	$(document).on("change", ".lsdd-payment-status", function (e) {
+	$(document).on("change", ".lsdc-payment-status", function (e) {
 
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
@@ -300,7 +300,7 @@ function lsdd_pad(num, size) {
 	});
 
 	// Manage
-	$(document).on("click", ".lsdd-payment-manage", function (e) {
+	$(document).on("click", ".lsdc-payment-manage", function (e) {
 		if ($('form#' + $(this).attr('id') + '_form').length == 0) { // Checking Cache DOM
 			let html = $('#' + $(this).attr('id') + '_content').html();
 			// Manipulate InnerHTML
@@ -333,7 +333,7 @@ function lsdd_pad(num, size) {
 	});
 
 	// Payment Save
-	$(document).on("click", ".lsdd-payment-save", function (e) {
+	$(document).on("click", ".lsdc-payment-save", function (e) {
 		e.preventDefault();
 		$(this).addClass('loading');
 		var that = this;
@@ -343,7 +343,7 @@ function lsdd_pad(num, size) {
 
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_payment_settings',
+			action: 'lsdc_payment_settings',
 			method: method,
 			id: id,
 			serialize: serialize,
@@ -391,7 +391,7 @@ function lsdd_pad(num, size) {
 
 	//=============== Admin - Notification ===============//
 	// Enabled
-	$(document).on("change", ".lsdd-notification-status", function (e) {
+	$(document).on("change", ".lsdc-notification-status", function (e) {
 
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
@@ -413,7 +413,7 @@ function lsdd_pad(num, size) {
 
 	//=============== Admin - Shipping ===============//
 	// Enabled
-	$(document).on("change", ".lsdd-shipping-status", function (e) {
+	$(document).on("change", ".lsdc-shipping-status", function (e) {
 
 		let id = $(this).find('input[type="checkbox"]').attr('id');
 		let state = ($(this).find('input[type="checkbox"]').is(":checked")) ? 'on' : 'off';
@@ -504,13 +504,13 @@ function lsdd_pad(num, size) {
 	// ------------------- Notification ----------------------//
 
 	// ------------------- Report - Complete ----------------------//
-	$(document).on("click", ".lsdd_report_complete", function () {
+	$(document).on("click", ".lsdc_report_complete", function () {
 		let id = $(this).closest('.action').attr('id');
 		$(this).addClass('loading');
 		var that = $(this);
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_report_action',
+			action: 'lsdc_report_action',
 			act: 'completed',
 			id: id,
 			security: lsdc_admin.ajax_nonce,
@@ -526,14 +526,14 @@ function lsdd_pad(num, size) {
 	});
 	// ------------------- Report - Delete ----------------------//
 
-	$(document).on("click", ".lsdd_report_delete", function () {
+	$(document).on("click", ".lsdc_report_delete", function () {
 		if (confirm(lsdc_admin.translation.delete_report)) {
 			let id = $(this).closest('.action').attr('id');
 			$(this).addClass('loading');
 			var that = $(this);
 
 			$.post(lsdc_admin.ajax_url, {
-				action: 'lsdd_report_action',
+				action: 'lsdc_report_action',
 				act: 'delete',
 				id: id,
 				security: lsdc_admin.ajax_nonce,
@@ -548,21 +548,21 @@ function lsdd_pad(num, size) {
 	});
 	// ------------------- Report - Edit ----------------------//
 	// Edit Entry Data v.2.1.0
-	$(document).on("click", ".lsdd_report_edit", function (e) {
+	$(document).on("click", ".lsdc_report_edit", function (e) {
 		let report_editor = $('#report_editor');
 		//Call Panel
 		report_editor.closest('div.column').show();
 		report_editor.closest('div.column').css('z-index', '9999');
 		let id = $(this).closest('.action').attr('id');
 
-		$('#lsdd_report_update').attr('data-id', id);
+		$('#lsdc_report_update').attr('data-id', id);
 
 		if (id) {
 			$('.panel-title').text('Edit Report #' + id);
 		}
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_report_action',
+			action: 'lsdc_report_action',
 			act: 'read',
 			id: id,
 			security: lsdc_admin.ajax_nonce,
@@ -593,14 +593,14 @@ function lsdd_pad(num, size) {
 
 	// ------------------- Report - Update Report ----------------------//	
 	// Update Entry Data v.2.1.0
-	$(document).on("click", "#lsdd_report_update", function (e) {
+	$(document).on("click", "#lsdc_report_update", function (e) {
 		let id = $(this).attr('data-id');
 		let report_editor = $('#report_editor');
 		$(this).addClass('loading');
 
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_report_action',
+			action: 'lsdc_report_action',
 			act: 'update',
 			id: id,
 			update_data: {
@@ -678,7 +678,7 @@ function lsdd_pad(num, size) {
 		var that = this;
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_report_bulk_action',
+			action: 'lsdc_report_bulk_action',
 			act: $(this).attr('id'),
 			data: $(this).attr('data-id'),
 			security: lsdc_admin.ajax_nonce,
@@ -693,13 +693,13 @@ function lsdd_pad(num, size) {
 	});
 
 	// ------------------- Report -  Export  ----------------------//	
-	$(document).on("click", "#lsdd_export", function (e) {
+	$(document).on("click", "#lsdc_export", function (e) {
 		$(this).addClass('loading');
 		let filter = $(this).prev('select').find(":selected").val();
 		var that = this;
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdd_report_export_action',
+			action: 'lsdc_report_export_action',
 			filter: filter,
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
@@ -722,7 +722,7 @@ function lsdd_pad(num, size) {
 	});
 
 	/**
-	 * LSDDonation > Reports
+	 * LSDCommerce > Reports
 	 * Reports > Import
 	 * 3.0.4 : Passed and Tested Manual
 	 */
@@ -773,14 +773,14 @@ function lsdd_pad(num, size) {
 					}
 					// Sending Data Import
 					$.post(lsdc_admin.ajax_url, {
-						action: 'lsdd_report_import_action',
+						action: 'lsdc_report_import_action',
 						data: JSON.stringify(newRows),
 						security: lsdc_admin.ajax_nonce,
 					}, function (response) {
 
 						response = JSON.parse(response);
 						$('#TB_closeWindowButton').click();
-						lsd_push_notification('LSDDonation Report - Import', response.message);
+						lsd_push_notification('LSDCommerce Report - Import', response.message);
 						$(that).removeClass('loading');
 						window.location.reload();
 					}).fail(function () {
@@ -799,13 +799,13 @@ function lsdd_pad(num, size) {
 
 	// ------------------- Product - Recommend Image Size  ----------------------//	
 	$(document).ready(function () {
-		$('body.post-type-lsdd_program #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
+		$('body.post-type-lsdc_program #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
 	});
 
 	$(document).on('change', 'input[name="program_type"]', function () {
-		$('body.post-type-lsdd_program #postimagediv .recommended').hide()
+		$('body.post-type-lsdc_program #postimagediv .recommended').hide()
 		if ($('input[name="program_type"]:checked').val()) {
-			$('body.post-type-lsdd_program #postimagediv #' + $('input[name="program_type"]:checked').val().trim() + '-recommended').show();
+			$('body.post-type-lsdc_program #postimagediv #' + $('input[name="program_type"]:checked').val().trim() + '-recommended').show();
 		}
 	});
 
@@ -822,17 +822,17 @@ function lsdd_pad(num, size) {
 	/******************************************/
 	/* Register and Unregister License Key to Server Update
 	/******************************************/
-	$(document).on("click", ".lsdd-license-register", function (e) {
+	$(document).on("click", ".lsdc-license-register", function (e) {
 		var that = this;
-		var inputKey = $(this).closest('.card-header').find('input.lsdd-license-key');
+		var inputKey = $(this).closest('.card-header').find('input.lsdc-license-key');
 		$(that).closest('.card').css('border', 'none');
 
 		if (inputKey.val() != '') {
 			$(this).addClass('loading');
 			$.post(lsdc_admin.ajax_url, {
 
-				action: 'lsdd_license_register',
-				key: $(this).closest('.card-header').find('input.lsdd-license-key').val(),
+				action: 'lsdc_license_register',
+				key: $(this).closest('.card-header').find('input.lsdc-license-key').val(),
 				type: $(this).attr('data-type'),
 				id: $(this).attr('data-id'),
 				security: lsdc_admin.ajax_nonce,
@@ -859,7 +859,7 @@ function lsdd_pad(num, size) {
 	});
 
 	// -------------------- Invoice -----------------------//	
-	$(document).on('click', '.lsdd_download_invoice', function () {
+	$(document).on('click', '.lsdc_download_invoice', function () {
 		$('#modal-invoice').addClass('active');
 		$('.invoice-box').addClass('loading');
 
@@ -871,12 +871,12 @@ function lsdd_pad(num, size) {
 			security: lsdc_admin.ajax_nonce,
 		}, function (res) {
 			var name = res.data[0].name.toLowerCase();
-			$('#pad_invoice').html(lsdd_pad(res.data[0].report_id, 7));
+			$('#pad_invoice').html(lsdc_pad(res.data[0].report_id, 7));
 			$('#name_invoice').html(name.ucwords());
 			$('#email_invoice').html(res.data[0].email);
 			$('#status_invoice').html(res.data[0].status);
 			$('#item_invoice').html(res.data[1]);
-			$('.total_invoice').html(lsdd_currency_format(2000, true));
+			$('.total_invoice').html(lsdc_currency_format(2000, true));
 			jQuery('.invoice-box').removeClass('loading');
 		}).fail(function () {
 			alert('Please check your internet connection');

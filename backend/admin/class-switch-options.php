@@ -156,7 +156,7 @@ class Switch_Options
                 <label class="form-label" for="theme-color"><?php _e('Warna Tema', 'lsdcommerce'); ?></label>
             </div>
             <div class="col-9 col-sm-12" style="height: 10px !important;">
-                <input type="text" name="lsdc_theme_color" value="<?php echo isset($settings['lsdc_theme_color']) ? esc_attr($settings['lsdc_theme_color']) : '#ff0000'; ?>" class="lsdd-color-picker">
+                <input type="text" name="lsdc_theme_color" value="<?php echo isset($settings['lsdc_theme_color']) ? esc_attr($settings['lsdc_theme_color']) : '#ff0000'; ?>" class="lsdc-color-picker">
                 <div class="color-picker" style="display: inline-block;z-index:999;"></div>
             </div>
         </div>

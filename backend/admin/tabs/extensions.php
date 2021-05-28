@@ -22,7 +22,7 @@
             <div class="filter-body columns">
                 <div class="column col-xs-12 filter-item" data-tag="tag-2">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-campaign/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-campaign/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">Pro</div>
@@ -34,7 +34,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-2">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-zakat/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-zakat/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">Affiliate</div>
@@ -45,7 +45,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-2">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-membership/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-membership/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">BCA Konfirmasi</div>
@@ -56,7 +56,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-midtrans/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-midtrans/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">Midtrans</div>
@@ -67,7 +67,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-ipaymu/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-ipaymu/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">iPaymu</div>
@@ -78,7 +78,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-faspay/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-faspay/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">Faspay</div>
@@ -89,7 +89,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-3">
                     <div class="card">
-                        <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-moota/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                        <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-moota/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                         </a></span>
                         <div class="card-header">
                         <div class="card-title h5">Moota</div>
@@ -100,7 +100,7 @@
 
                 <div class="column col-xs-12 filter-item" data-tag="tag-1">
                   <div class="card">
-                      <span class="label label-success"><a href="https://lsdplugins.com/lsddonasi-paypal/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
+                      <span class="label label-success"><a href="https://lsdplugins.com/lsdconasi-paypal/" target="_blank" class="text-light"><?php _e( 'Learn', 'lsdcommerce') ?>
                       </a></span>
                       <div class="card-header">
                       <div class="card-title h5">Paypal</div>

@@ -15,35 +15,35 @@ class AJAX
     {
         add_action('wp_ajax_lsdcommerce_store_save', [$this, 'store_settings']);
 
-        add_action('wp_ajax_lsdd_admin_appearance_save', [$this, 'admin_appearance_save']);
+        add_action('wp_ajax_lsdc_admin_appearance_save', [$this, 'admin_appearance_save']);
 
-        // add_action('wp_ajax_lsdd_admin_notification_status', [$this, 'admin_notification_status']);
+        // add_action('wp_ajax_lsdc_admin_notification_status', [$this, 'admin_notification_status']);
 
-        // add_action('wp_ajax_lsdd_admin_payment_sorting', [$this, 'admin_payment_sorting']);
-        // add_action('wp_ajax_lsdd_admin_payment_status', [$this, 'admin_payment_status']);
-        // add_action('wp_ajax_lsdd_admin_payment_manage', [$this, 'admin_payment_manage']);
-        // add_action('wp_ajax_lsdd_payment_delete', [$this, 'admin_payment_delete']);
+        // add_action('wp_ajax_lsdc_admin_payment_sorting', [$this, 'admin_payment_sorting']);
+        // add_action('wp_ajax_lsdc_admin_payment_status', [$this, 'admin_payment_status']);
+        // add_action('wp_ajax_lsdc_admin_payment_manage', [$this, 'admin_payment_manage']);
+        // add_action('wp_ajax_lsdc_payment_delete', [$this, 'admin_payment_delete']);
 
-        // add_action('wp_ajax_lsdd_payment_settings', [$this, 'admin_payment_settings']);
+        // add_action('wp_ajax_lsdc_payment_settings', [$this, 'admin_payment_settings']);
 
-        // add_action('wp_ajax_lsdd_admin_settings_save', [$this, 'admin_settings_save']);
+        // add_action('wp_ajax_lsdc_admin_settings_save', [$this, 'admin_settings_save']);
 
-        // add_action('wp_ajax_lsdd_admin_option_save', [$this, 'admin_option_save']);
+        // add_action('wp_ajax_lsdc_admin_option_save', [$this, 'admin_option_save']);
 
-        // add_action('wp_ajax_lsdd_get_settings_invoice', [$this, 'admin_get_invoice']);
-        // add_action('wp_ajax_lsdd_report_export_action', [$this, 'admin_report_export_action']);
-        // add_action('wp_ajax_lsdd_report_import_action', [$this, 'admin_report_import_action']);
-        // add_action('wp_ajax_lsdd_report_action', [$this, 'admin_report_action']);
-        // add_action('wp_ajax_lsdd_report_bulk_action', [$this, 'admin_report_bulk_action']);
-        // add_action('wp_ajax_lsdd_report_chart', [$this, 'statistics_chart_data']);
+        // add_action('wp_ajax_lsdc_get_settings_invoice', [$this, 'admin_get_invoice']);
+        // add_action('wp_ajax_lsdc_report_export_action', [$this, 'admin_report_export_action']);
+        // add_action('wp_ajax_lsdc_report_import_action', [$this, 'admin_report_import_action']);
+        // add_action('wp_ajax_lsdc_report_action', [$this, 'admin_report_action']);
+        // add_action('wp_ajax_lsdc_report_bulk_action', [$this, 'admin_report_bulk_action']);
+        // add_action('wp_ajax_lsdc_report_chart', [$this, 'statistics_chart_data']);
 
-        // add_action('wp_ajax_lsdd_notification_email_template', [$this, 'notification_email_template']);
-        // add_action('wp_ajax_lsdd_notification_email_reset', [$this, 'notification_email_reset']);
+        // add_action('wp_ajax_lsdc_notification_email_template', [$this, 'notification_email_template']);
+        // add_action('wp_ajax_lsdc_notification_email_reset', [$this, 'notification_email_reset']);
     }
     
     /**
      * Saving payment list based on user sort
-     * save into option 'lsdd_payment_sorted'
+     * save into option 'lsdc_payment_sorted'
      *
      * @return void
      */
@@ -57,7 +57,7 @@ class AJAX
 
         // sanitize array: Any of the WordPress data sanitization functions can be used here
         $payments = array_map('esc_attr', $payments);
-        $success = update_option('lsdd_payment_sorted', $payments);
+        $success = update_option('lsdc_payment_sorted', $payments);
         wp_send_json_success($payments);
 
         wp_die();
@@ -65,7 +65,7 @@ class AJAX
 
     /**
      * Saving Appearance Options in Admin
-     * save into option "lsdd_appearance_settings'
+     * save into option "lsdc_appearance_settings'
      *
      * @return void
      */
@@ -80,7 +80,7 @@ class AJAX
         $out = array();
         parse_str(html_entity_decode($data), $out);
 
-        update_option('lsdd_appearance_settings', $out);
+        update_option('lsdc_appearance_settings', $out);
         echo 'action_success';
 
         wp_die();
@@ -95,15 +95,15 @@ class AJAX
         // Toggle Notification Method
         $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
         $state = esc_attr($_REQUEST['state']);
-        $lsdd_payment_status = get_option('lsdd_notification_status');
+        $lsdc_payment_status = get_option('lsdc_notification_status');
 
-        if ($lsdd_payment_status == '') {
-            $lsdd_payment_status = array();
+        if ($lsdc_payment_status == '') {
+            $lsdc_payment_status = array();
         }
 
-        $lsdd_payment_status[$id] = $state;
+        $lsdc_payment_status[$id] = $state;
 
-        update_option('lsdd_notification_status', $lsdd_payment_status);
+        update_option('lsdc_notification_status', $lsdc_payment_status);
         echo 'action_success';
 
         wp_die();
@@ -171,17 +171,17 @@ class AJAX
             wp_send_json_error('Invalid security token sent.');
         }
 
-        $country_selected = lsdd_get_country();
+        $country_selected = lsdc_get_country();
 
         $email_type = esc_attr($_POST['email_type']);
         $template_html = $_POST['data'];
 
-        $settings = get_option('lsdd_notification_email'); // lsdd_notification_email
+        $settings = get_option('lsdc_notification_email'); // lsdc_notification_email
         $settings[$email_type]['saved'] = 'email-' . $email_type . '-' . $country_selected . '.html'; //Saving
         $settings[$email_type]['header_bg'] = sanitize_hex_color($_POST['header_bg']); // header background
         $settings[$email_type]['subject'] = esc_attr($_POST['subject']); // header background
 
-        update_option('lsdd_notification_email', $settings);
+        update_option('lsdc_notification_email', $settings);
 
         $clean_template_html = stripslashes($template_html);
         file_put_contents(LSDD_STORAGE . '/email-' . $email_type . '-' . $country_selected . '.html', $clean_template_html); //save to file
@@ -200,13 +200,13 @@ class AJAX
         $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
 
         $state = esc_attr($_REQUEST['state']);
-        $lsdd_payment_status = get_option('lsdd_payment_status') != null ? get_option('lsdd_payment_status') : array();
-        if( !is_array($lsdd_payment_status) ){
-            $lsdd_payment_status = array();
+        $lsdc_payment_status = get_option('lsdc_payment_status') != null ? get_option('lsdc_payment_status') : array();
+        if( !is_array($lsdc_payment_status) ){
+            $lsdc_payment_status = array();
         }
-        $lsdd_payment_status[$id] = $state;
+        $lsdc_payment_status[$id] = $state;
 
-        update_option('lsdd_payment_status', $lsdd_payment_status);
+        update_option('lsdc_payment_status', $lsdc_payment_status);
         echo 'action_success';
 
         wp_die();
@@ -219,7 +219,7 @@ class AJAX
         }
 
         $payment_id = esc_attr($_REQUEST['id']);
-        $payment_settings = get_option('lsdd_payment_settings');
+        $payment_settings = get_option('lsdc_payment_settings');
         $obj = $payment_settings[$payment_id];
 
         if( isset($obj['template_class'])) {
@@ -239,18 +239,18 @@ class AJAX
         }
 
         // Toggle Payment Method
-        $id = lsdd_sanitize_id($_REQUEST['id']);
+        $id = lsdc_sanitize_id($_REQUEST['id']);
 
-        $payment_data = get_option('lsdd_payment_settings'); 
-        $payment_sorted = get_option('lsdd_payment_sorted'); 
+        $payment_data = get_option('lsdc_payment_settings'); 
+        $payment_sorted = get_option('lsdc_payment_sorted'); 
 
         if( isset($payment_data[$id]) || isset($payment_sorted[$id]) ){
 
             unset($payment_data[$id]);
             unset($payment_sorted[$id]);
 
-            update_option('lsdd_payment_sorted', $payment_sorted);
-            update_option('lsdd_payment_settings', $payment_data);
+            update_option('lsdc_payment_sorted', $payment_sorted);
+            update_option('lsdc_payment_settings', $payment_data);
             echo 'action_success';
         }else{
             echo 'error';
@@ -267,8 +267,8 @@ class AJAX
         }
 
         // Toggle Payment Method
-        $origin_id = lsdd_sanitize_id($_REQUEST['id']);
-        $method = 'lsdd_payment_settings';
+        $origin_id = lsdc_sanitize_id($_REQUEST['id']);
+        $method = 'lsdc_payment_settings';
 
         $data = $_REQUEST['serialize'];
         $out = array();
@@ -293,7 +293,7 @@ class AJAX
             }
 
             if ($key == 'pointer') {
-                $pointer = lsdd_sanitize_id($item);
+                $pointer = lsdc_sanitize_id($item);
             }
         }
 
@@ -350,7 +350,7 @@ class AJAX
         $allowed_html = wp_kses_allowed_html('post');
         $sanitize = array();
         foreach ($out as $key => $item) {
-            if ($key == 'lsdd_tac') {
+            if ($key == 'lsdc_tac') {
                 $item = wp_kses($item, $allowed_html);
             } elseif ($key == 'report_permission') {
                 if (!is_array($item)) {
@@ -364,16 +364,16 @@ class AJAX
             $sanitize[$key] = $item; //restructure
         }
 
-        $settings = get_option('lsdd_general_settings');
+        $settings = get_option('lsdc_general_settings');
         if (empty($settings)) {
             $merge = $sanitize;
         } else {
             $merge = array_merge($settings, $sanitize);
         }
 
-        update_option('lsdd_general_settings', $merge);
+        update_option('lsdc_general_settings', $merge);
 
-        if ($settings['lsdd_currency'] != $out['lsdd_currency']) {
+        if ($settings['lsdc_currency'] != $out['lsdc_currency']) {
             echo 'action_reload';
         } else {
             echo 'action_success';
@@ -434,7 +434,7 @@ class AJAX
         $id = $_REQUEST['id'];
 
         global $wpdb;
-        $results = $wpdb->get_row("SELECT * FROM wp_lsddonation_reports WHERE report_id = $id");
+        $results = $wpdb->get_row("SELECT * FROM wp_lsdcommerce_reports WHERE report_id = $id");
 
         $result = get_the_title($results->program_id);
 
@@ -451,27 +451,27 @@ class AJAX
         $filter = sanitize_text_field($_REQUEST['filter']);
         $exportby = null;
 
-        if ($filter === lsdd_current_date('d M Y') || $filter === lsdd_date_format('-1 day', 'd M Y')) {
+        if ($filter === lsdc_current_date('d M Y') || $filter === lsdc_date_format('-1 day', 'd M Y')) {
             $exportby[] = date('Y', strtotime($filter));
             $exportby[] = date('m', strtotime($filter));
             $exportby[] = date('d', strtotime($filter));
         } else if (strtolower($filter) === 'last 7 day') {   
             $exportby[] = date('Y-m-d');
             $exportby[] = date('Y-m-d', strtotime('-7 day'));
-        } else if ($filter === lsdd_current_date('M')) {
+        } else if ($filter === lsdc_current_date('M')) {
             $exportby[] = date('m');
         }
 
-        if ($exportby && $filter === lsdd_current_date('d M Y')) {
-            $basename = 'lsddonation_today_' . strtolower(date('d', strtotime($filter))) . '_' . strtolower(date('M', strtotime($filter))) . '_' . date('Y', strtotime($filter)); // Set Name
-        } else if ($exportby && $filter === lsdd_date_format('-1 day', 'd M Y')) {
-            $basename = 'lsddonation_yseterday_' . strtolower(date('d', strtotime($filter))) . '_' . strtolower(date('M', strtotime($filter))) . '_' . date('Y', strtotime($filter)); // Set Name
+        if ($exportby && $filter === lsdc_current_date('d M Y')) {
+            $basename = 'lsdcommerce_today_' . strtolower(date('d', strtotime($filter))) . '_' . strtolower(date('M', strtotime($filter))) . '_' . date('Y', strtotime($filter)); // Set Name
+        } else if ($exportby && $filter === lsdc_date_format('-1 day', 'd M Y')) {
+            $basename = 'lsdcommerce_yseterday_' . strtolower(date('d', strtotime($filter))) . '_' . strtolower(date('M', strtotime($filter))) . '_' . date('Y', strtotime($filter)); // Set Name
         } else if ($exportby && $filter === 'last 7 day') {
-            $basename = 'lsddonation_last_7_day'; // Set Name
-        } else if ($exportby && $filter === lsdd_current_date('M')) {
-            $basename = 'lsddonation_this_month';
+            $basename = 'lsdcommerce_last_7_day'; // Set Name
+        } else if ($exportby && $filter === lsdc_current_date('M')) {
+            $basename = 'lsdcommerce_this_month';
         } else {
-            $basename = 'lsddonation_all';
+            $basename = 'lsdcommerce_all';
         }
 
         $reports = new Reports_Repository;
@@ -516,8 +516,8 @@ class AJAX
                         'email' => sanitize_email($item[5]),
                         'anonim' => sanitize_text_field($item[6]),
                         'messages' => sanitize_text_field($item[7]),
-                        'subtotal' => absint(lsdd_currency_cleanup($item[8])),
-                        'total' => absint(lsdd_currency_cleanup($item[9])),
+                        'subtotal' => absint(lsdc_currency_cleanup($item[8])),
+                        'total' => absint(lsdc_currency_cleanup($item[9])),
                         'currency' => sanitize_text_field($item[10]),
                         'gateway' => sanitize_text_field($item[11]),
                         'ip' => sanitize_text_field($item[12]),
@@ -537,13 +537,13 @@ class AJAX
             }
             echo json_encode(array(
                 'status' => 'success',
-                'message' => sprintf(__('Successfull import %d data', 'lsdd'), abs($counter)),
+                'message' => sprintf(__('Successfull import %d data', 'lsdc'), abs($counter)),
             ));
             Log::record('Successfull import ' . $counter . ' data', INFO);
         } else {
             echo json_encode(array(
                 'status' => 'failed',
-                'message' => __("Import Data Failed, Data empty", "lsdd"),
+                'message' => __("Import Data Failed, Data empty", "lsdc"),
             ));
             Log::record('Import Data Failed, Data empty', WARNING);
         }
@@ -651,14 +651,14 @@ class AJAX
 
         $email_type = esc_attr($_POST['email_type']);
 
-        $settings = get_option('lsdd_notification_email'); // lsdd_notification_email
+        $settings = get_option('lsdc_notification_email'); // lsdc_notification_email
         $settings[$email_type]['saved'] = ''; //Saving
         $settings[$email_type]['header_bg'] = sanitize_hex_color('#ff0000'); // header background
-        update_option('lsdd_notification_email', $settings);
+        update_option('lsdc_notification_email', $settings);
 
-        $source_template = file_get_contents(LSDD_PATH . 'templates/' . $email_type . '-source-' . lsdd_get_country() . '.html'); //getting template email by type
+        $source_template = file_get_contents(LSDD_PATH . 'templates/' . $email_type . '-source-' . lsdc_get_country() . '.html'); //getting template email by type
         $clean_template_html = stripslashes($source_template_html);
-        file_put_contents(LSDD_STORAGE . '/email-' . $email_type . '-' . lsdd_get_country() . '.html', $clean_template_html); //save to file
+        file_put_contents(LSDD_STORAGE . '/email-' . $email_type . '-' . lsdc_get_country() . '.html', $clean_template_html); //save to file
 
         echo 'action_success';
         wp_die();

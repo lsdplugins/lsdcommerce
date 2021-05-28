@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 
     <br>
 
-    <button class="btn btn-primary w-120" id="lsdd-admin-apperance-save">
+    <button class="btn btn-primary w-120" id="lsdc-admin-apperance-save">
       <?php _e('Simpan', 'lsdcommerce');?>
     </button>
   </section>

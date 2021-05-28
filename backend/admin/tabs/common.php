@@ -29,7 +29,7 @@ if (isset($_GET["tab"])) {
 
 <div class="wrap lsdcommerce-admin">
 
-    <?php $tab_lists = lsdd_tab_lists(); ?>
+    <?php $tab_lists = lsdc_tab_lists(); ?>
     
     <!-- Display Header Tabs -->
     <div class="column col-12 col-sm-12 px-0">

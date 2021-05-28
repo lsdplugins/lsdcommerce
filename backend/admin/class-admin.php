@@ -251,7 +251,7 @@ class Admin
             ['shortcode' => '[lsdcommerce_checkout]', 'description' => __("Menampilkan Pembayaran", 'lsdcommerce')],
         ));
 
-        // Add Switch Options to wp-admin > LSDDonation > Appearence
+        // Add Switch Options to wp-admin > LSDCommerce > Appearence
         require_once LSDC_PATH . 'backend/admin/class-switch-options.php';
         Admin\Switch_Options::addOptions( $this->slug, $this->name, array(
             'lsdc_unique_code' => ['name' => __('Kode Unik', 'lsdcommerce'), 'desc' => __('Matikan/Hidupkan Kode Unik', 'lsdcommerce'), 'override' => false],

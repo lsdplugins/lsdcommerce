@@ -15,9 +15,9 @@ class Usages
     {
         $plugin = new self();
         $plugin->domain = str_replace(".", "_", parse_url(get_site_url())['host']);
-        $plugin->settings = is_array(get_option(plugin_basename(LSDD_PATH) . '_site_usage')) ? get_option(plugin_basename(LSDD_PATH) . '_site_usage') : $plugin->collecting();
+        $plugin->settings = is_array(get_option(plugin_basename(LSDC_PATH) . '_site_usage')) ? get_option(plugin_basename(LSDC_PATH) . '_site_usage') : $plugin->collecting();
         
-        add_action('lsddonation/updates', [ $plugin, 'post_active_day']);
+        add_action('lsdcommerce/updates', [ $plugin, 'post_active_day']);
 
         if( empty($plugin->settings) ){
             $plugin->collecting();
@@ -36,7 +36,7 @@ class Usages
         $old = abs($this->settings[$this->domain]['plugin_usage']['active_day']);
         $count = $this->settings[$this->domain]['plugin_usage']['active_day'] = $old + 1; // Updating Data Active
 
-        update_option(plugin_basename(LSDD_PATH) . '_site_usage', $this->settings);
+        update_option(plugin_basename(LSDC_PATH) . '_site_usage', $this->settings);
         $this->remote_post();
         return $count;
     }
@@ -67,13 +67,13 @@ class Usages
             'site_url' => get_bloginfo('url'),
             'site_email' => get_bloginfo('admin_email'),
             'plugin_usage' => array(
-                'plugin' => plugin_basename(LSDD_PATH),
-                'installed' => get_option(plugin_basename(LSDD_PATH) . '_installed'),
+                'plugin' => plugin_basename(LSDC_PATH),
+                'installed' => get_option(plugin_basename(LSDC_PATH) . '_installed'),
                 'active' => false,
                 'active_day' => 0,
                 'updated' => 0,
-                'version' => LSDD_VERSION,
-                'storage' => is_dir(LSDD_STORAGE),
+                'version' => LSDC_VERSION,
+                'storage' => is_dir(LSDC_STORAGE),
                 'translation' => is_dir(WP_CONTENT_DIR . '/languages/plugins/'),
             ),
         );
@@ -91,8 +91,8 @@ class Usages
     {
 
         if (isset($this->settings[$this->domain])) {
-            $this->settings[$this->domain]['plugin_usage']['active'] = is_plugin_active(plugin_basename(LSDD_PATH) . '/' . plugin_basename(LSDD_PATH) . '.php');
-            update_option(plugin_basename(LSDD_PATH) . '_site_usage', $this->settings);
+            $this->settings[$this->domain]['plugin_usage']['active'] = is_plugin_active(plugin_basename(LSDC_PATH) . '/' . plugin_basename(LSDC_PATH) . '.php');
+            update_option(plugin_basename(LSDC_PATH) . '_site_usage', $this->settings);
         }
         $this->remote_post();
     }
@@ -109,14 +109,14 @@ class Usages
         $old = $this->settings[$this->domain]['plugin_usage']['updated'];
     
         if (is_array($old)) {
-            if (!in_array(LSDD_VERSION, $old)) {
-                array_push($old, LSDD_VERSION);
+            if (!in_array(LSDC_VERSION, $old)) {
+                array_push($old, LSDC_VERSION);
             }
         } else {
-            $old = array(LSDD_VERSION);
+            $old = array(LSDC_VERSION);
         }
         $this->settings[$this->domain]['plugin_usage']['updated'] = $old; // Updating Data Active
-        update_option(plugin_basename(LSDD_PATH) . '_site_usage', $this->settings);
+        update_option(plugin_basename(LSDC_PATH) . '_site_usage', $this->settings);
         $this->remote_post();
     }
 
@@ -142,7 +142,7 @@ class Usages
         );
 
         if ($this->domain != 'localhost') {
-            $response = wp_remote_post('https://stats.lsdplugins.com/api/v1/lsddonation/', $payload);
+            $response = wp_remote_post('https://stats.lsdplugins.com/api/v1/lsdcommerce/', $payload);
             $response = json_decode(wp_remote_retrieve_body($response), true);
         }
         return $response;

@@ -1,9 +1,9 @@
 <?php
-use LSDDonation\Licenses;
+use LSDCommerce\Licenses;
 
 /*********************************************/
 /* Displaying Licenses Menu
-/* wp-admin -> LSDDonation -> Licenses
+/* wp-admin -> LSDCommerce -> Licenses
 /********************************************/
 
 if (!defined('ABSPATH')) {
@@ -11,33 +11,33 @@ if (!defined('ABSPATH')) {
 }
 ?>
 <div class="columns" style="margin: 0 auto;">
-    <?php if (Licenses::get('key', 'lsddonation')): ?>
+    <?php if (Licenses::get('key', 'lsdcommerce')): ?>
         <div class="column col-4 col-xs-12">
             <div class="card">
                 <span class="label label-success">
-                    <a href="#" class="text-light"><?php echo ucfirst(Licenses::get('status', 'lsddonation')); ?></a>
-                    <small class="float-right"><?php echo Licenses::get('expired', 'lsddonation'); ?></small>
+                    <a href="#" class="text-light"><?php echo ucfirst(Licenses::get('status', 'lsdcommerce')); ?></a>
+                    <small class="float-right"><?php echo Licenses::get('expired', 'lsdcommerce'); ?></small>
                 </span>
                 <div class="card-header">
-                    <div class="card-title h5"><?php _e('LSDDonation', 'lsddonation');?></div>
-                    <label for=""><?php _e('registered', 'lsddonation');?> : <?php echo Licenses::get('registered', 'lsddonation'); ?></label><br>
-                    <button class="btn btn-block my-2 bg-error lsdd-license-register" style="border:none;" data-id="lsddonation" data-type="unregister">
-                        <?php _e('Release', 'lsddonation');?>
+                    <div class="card-title h5"><?php _e('LSDCommerce', 'lsdcommerce');?></div>
+                    <label for=""><?php _e('registered', 'lsdcommerce');?> : <?php echo Licenses::get('registered', 'lsdcommerce'); ?></label><br>
+                    <button class="btn btn-block my-2 bg-error lsdc-license-register" style="border:none;" data-id="lsdcommerce" data-type="unregister">
+                        <?php _e('Release', 'lsdcommerce');?>
                     </button>
                 </div>
             </div>
         </div>
-        <?php do_action('lsddonation/admin/licenses');?>
+        <?php do_action('lsdcommerce/admin/licenses');?>
     <?php else: ?>  
         <div class="column col-4 col-xs-12">
             <div class="card">
-                <span class="label label-secondary"><?php _e('Not Registered', 'lsddonation');?></span>
+                <span class="label label-secondary"><?php _e('Not Registered', 'lsdcommerce');?></span>
                 <div class="card-header">
-                    <div class="card-title h5"><?php _e('LSDDonation', 'lsddonation');?></div>
-                    <small><?php _e('Input your license key', 'lsddonation');?> </small>
-                    <input autocomplete="off" style="margin-top:5px;" class="form-input lsdd-license-key" type="password" placeholder="License Key">
-                    <button class="btn btn-block my-2 bg-success lsdd-license-register" style="border:none;" data-id="lsddonation" data-type="register"><?php _e('Register', 'lsddonation');?></button>
-                    <small id="msg" style="text-transform: capitalize;"><?php _e('Take your license key in the ', 'lsddonation');?> <a target="_blank" href="https://lsdplugins.com/member/"><?php _e('Member Area', 'lsddonation');?></a></small>
+                    <div class="card-title h5"><?php _e('LSDCommerce', 'lsdcommerce');?></div>
+                    <small><?php _e('Input your license key', 'lsdcommerce');?> </small>
+                    <input autocomplete="off" style="margin-top:5px;" class="form-input lsdc-license-key" type="password" placeholder="License Key">
+                    <button class="btn btn-block my-2 bg-success lsdc-license-register" style="border:none;" data-id="lsdcommerce" data-type="register"><?php _e('Register', 'lsdcommerce');?></button>
+                    <small id="msg" style="text-transform: capitalize;"><?php _e('Take your license key in the ', 'lsdcommerce');?> <a target="_blank" href="https://lsdplugins.com/member/"><?php _e('Member Area', 'lsdcommerce');?></a></small>
                 </div>
             </div>
         </div>

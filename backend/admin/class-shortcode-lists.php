@@ -152,21 +152,21 @@ class Shortcode_Lists
                 }
 
                 /* Apperance Load More */
-                .load-more-container #load-shortcode-lsdd {
+                .load-more-container #load-shortcode-lsdc {
                 display: none;
                 }
 
-                .load-more-container #load-shortcode-lsdd:checked~ul li:nth-child(1n + 5) {
+                .load-more-container #load-shortcode-lsdc:checked~ul li:nth-child(1n + 5) {
                 max-height: 999px;
                 opacity: 1;
                 transition: 0.2s ease-in;
                 }
 
-                .load-more-container #load-shortcode-lsdd:checked~.load-more-btn .loaded {
+                .load-more-container #load-shortcode-lsdc:checked~.load-more-btn .loaded {
                 display: block;
                 }
 
-                .load-more-container #load-shortcode-lsdd:checked~.load-more-btn .unloaded {
+                .load-more-container #load-shortcode-lsdc:checked~.load-more-btn .unloaded {
                 display: none;
                 }
             </style>

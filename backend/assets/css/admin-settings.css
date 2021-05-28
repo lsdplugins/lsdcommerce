@@ -6,9 +6,9 @@ li#toplevel_page_edit-post_type-product .wp-menu-image img {
 .toplevel_page_lsdcommerce .notice,
 .toplevel_page_lsdcommerce .error,
 .toplevel_page_lsdcommerce .updated,
-.toplevel_page_lsdd-reports .notice,
-.toplevel_page_lsdd-reports .error,
-.toplevel_page_lsdd-reports .updated,
+.toplevel_page_lsdc-reports .notice,
+.toplevel_page_lsdc-reports .error,
+.toplevel_page_lsdc-reports .updated,
 .admin-bar .notice,
 .admin-bar .error,
 .admin-bar .updated {
@@ -43,7 +43,7 @@ li#toplevel_page_edit-post_type-product .wp-menu-image img {
 
 
 /* Columns */
-.post-type-lsdd_program th#image {
+.post-type-lsdc_program th#image {
   width: 50px;
 }
 
@@ -85,7 +85,7 @@ li#toplevel_page_edit-post_type-product .wp-menu-image img {
   z-index: 1;
 }
 
-.lsdd-admin-hidden {
+.lsdc-admin-hidden {
   position: absolute;
   opacity: 0;
 }
@@ -109,13 +109,13 @@ input[name="product_tabs"]:checked+.label {
   margin-bottom: 7px;
 }
 
-.lsdd {
+.lsdc {
   margin: 0;
   padding: 0;
 }
 
-.lsdd p,
-.lsdd h4 {
+.lsdc p,
+.lsdc h4 {
   padding: 4px 0;
   margin: 0;
 }

@@ -48,7 +48,7 @@ if (!defined('ABSPATH')) {
             <div class="col-5 col-sm-12">
                 <img style="width:75px;" src="<?php echo $logo; ?>"/>
                 <input class="form-input" type="text" style="display:none;" name="logo">
-                <input type="button" value="<?php _e('Choose Image', 'lsdcommerce');?>" class="lsdd_admin_upload btn col-12">
+                <input type="button" value="<?php _e('Choose Image', 'lsdcommerce');?>" class="lsdc_admin_upload btn col-12">
             </div>
         </div> -->
 
