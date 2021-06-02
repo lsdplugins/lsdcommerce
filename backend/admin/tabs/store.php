@@ -33,7 +33,7 @@ if (!defined('ABSPATH')) {
         <!-- Store Name -->
         <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="name"><?php _e('Store Name', 'lsdcommerce');?></label>
+                <label class="form-label" for="name"><?php _e('Toko', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
                 <input type="text" class="form-input" name="name" placeholder="TokoAlus" value="<?php echo $name; ?>"/>
@@ -43,10 +43,10 @@ if (!defined('ABSPATH')) {
         <!-- Store Logo -->
         <!-- <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="logo"><?php _e('Store Logo', 'lsdcommerce');?></label>
+                <label class="form-label" for="logo"><?php _e('Logo', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
-                <img style="width:75px;" src="<?php echo $logo; ?>"/>
+                <img style="width:75px;" src="<?php //echo $logo; ?>"/>
                 <input class="form-input" type="text" style="display:none;" name="logo">
                 <input type="button" value="<?php _e('Choose Image', 'lsdcommerce');?>" class="lsdc_admin_upload btn col-12">
             </div>
@@ -93,7 +93,7 @@ if (!defined('ABSPATH')) {
         <!-- Address -->
         <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="address"><?php _e('Address', 'lsdcommerce');?></label>
+                <label class="form-label" for="address"><?php _e('Alamat', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
                 <textarea class="form-input" name="address" placeholder='<?php echo __('Jl.Jendral Sudirman no 40. 15560', 'lsdcommerce'); ?>' rows="3"><?php echo $address; ?></textarea>

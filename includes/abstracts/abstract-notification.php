@@ -39,12 +39,12 @@ abstract class Notification_Template
      */
     public function header()
     {
-        $lsdc_notification_status = get_option('lsdcommerce_notification_status');
+        $lsdcommerce_notification_status = get_option('lsdcommerce_notification_status');
 
-        if (!isset($lsdc_notification_status[$this->id])) {
-            $lsdc_notification_status[$this->id] = 'off';
+        if (!isset($lsdcommerce_notification_status[$this->id])) {
+            $lsdcommerce_notification_status[$this->id] = 'off';
         }
-        $status = $lsdc_notification_status[$this->id] == 'on' ? 'on' : 'off';?>
+        $status = $lsdcommerce_notification_status[$this->id] == 'on' ? 'on' : 'off';?>
 
         <div class="lsdc-notification-status">
             <h5>
@@ -65,12 +65,12 @@ abstract class Notification_Template
 
     public function status()
     {
-        $lsdc_notification_status = get_option('lsdcommerce_notification_status');
+        $lsdcommerce_notification_status = get_option('lsdcommerce_notification_status');
 
-        if (!isset($lsdc_notification_status[$this->id])) {
-            $lsdc_notification_status[$this->id] = 'off';
+        if (!isset($lsdcommerce_notification_status[$this->id])) {
+            $lsdcommerce_notification_status[$this->id] = 'off';
         }
-        return $lsdc_notification_status[$this->id] == 'on' ? true : false;
+        return $lsdcommerce_notification_status[$this->id] == 'on' ? true : false;
     }
 
     /**

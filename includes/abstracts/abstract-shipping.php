@@ -46,17 +46,17 @@ abstract class Shipping_Template
         }
         $status = $lsdcommerce_shipping_settings[$this->id] == 'on' ? 'on' : 'off';?>
 
-        <div class="lsdd-notification-status">
+        <div class="lsdc-notification-status">
             <h5>
                 <?php echo $this->name; ?>
-                <a href="<?php echo $this->docs[lsdd_get_country()]; ?>" target="_blank" class="btn btn-primary" style="margin-left:10px; border-radius: 20px;padding: 5px 25px;">
-                    <?php _e('Learn', 'lsddonation');?>
+                <a href="<?php echo $this->docs[lsdc_get_country()]; ?>" target="_blank" class="btn btn-primary" style="margin-left:10px; border-radius: 20px;padding: 5px 25px;">
+                    <?php _e('Pelajari', 'lsdcommerce');?>
                 </a>
             </h5>
             <div class="form-group">
                 <label class="form-switch" style="width:250px">
                 <input type="checkbox" id="<?php echo $this->id . '_status'; ?>" <?php echo ($status == 'on') ? 'checked' : ''; ?>>
-                    <i class="form-icon"></i><?php _e('Enable', 'lsddonation');?>  <?php echo $this->name; ?>
+                    <i class="form-icon"></i><?php _e('Aktifkan', 'lsdcommerce');?>  <?php echo $this->name; ?>
                 </label>
             </div>
         </div>

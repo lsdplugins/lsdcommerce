@@ -16,8 +16,8 @@ class PostTypes_Product
         add_action('save_post', [$this, 'metabox_save']);
         add_action('new_to_publish', [$this, 'metabox_save']);
 
-        add_filter('manage_lsdc-product_posts_columns', [$this, 'column_header']);
-        add_action('manage_lsdc-product_posts_custom_column', [$this, 'columen_content'], 10, 2);
+        add_filter('manage_product_posts_columns', [$this, 'column_header']);
+        add_action('manage_product_posts_custom_column', [$this, 'columen_content'], 10, 2);
 
         add_action('archive_template', [$this, 'archive']);
         add_filter('single_template', [$this, 'single'], 11);
@@ -63,14 +63,14 @@ class PostTypes_Product
             'hierarchical' => false,
             'menu_icon' => LSDC_URL . 'backend/assets/svg/product.svg',
             'comments' => true,
-            'taxonomies' => array('lsdc-product-category'),
+            'taxonomies' => array('product-category'),
         );
 
-        register_post_type('lsdc-product', $args);
+        register_post_type('product', $args);
 
         register_taxonomy(
-            'lsdc-product-category',
-            'lsdc-product',
+            'product-category',
+            'product',
             array(
                 'hierarchical' => true,
                 'label' => __('Kategori'),
@@ -106,13 +106,13 @@ class PostTypes_Product
         ?>
         <script>
            jQuery( document ).ready(function() {
-               jQuery('body.post-type-lsdc-product #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
+               jQuery('body.post-type-product #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
             });
 
            jQuery(document).on('change', 'input[name="product_type"]',  function() {
-               jQuery('body.post-type-lsdc-product #postimagediv .recommended').hide()
+               jQuery('body.post-type-product #postimagediv .recommended').hide()
                 if(jQuery('input[name="product_type"]:checked').val() ){
-                   jQuery('body.post-type-lsdc-product #postimagediv #' +jQuery('input[name="product_type"]:checked').val().trim() + '-recommended').show();
+                   jQuery('body.post-type-product #postimagediv #' +jQuery('input[name="product_type"]:checked').val().trim() + '-recommended').show();
                 }
             });
         </script>
@@ -122,10 +122,10 @@ class PostTypes_Product
     public function metabox_register()
     {
         add_meta_box(
-            'lsdc-product-data',
+            'product-data',
             __('Product Data', 'lsdcommerce'),
             [$this, 'metabox_product_data'],
-            'lsdc-product',
+            'product',
             'normal',
             'high'
         );
@@ -138,28 +138,28 @@ class PostTypes_Product
         wp_nonce_field(basename(__FILE__), 'lsdc_admin_nonce');?>
 
         <style>
-            #lsdc-product-data .inside,
-            #lsdc-product-data .wp-tab-bar,
-            #lsdc-product-data .wp-tab-panel{
+            #product-data .inside,
+            #product-data .wp-tab-bar,
+            #product-data .wp-tab-panel{
                 margin:0 !important;
             }
 
-            #lsdc-product-data .inside,
-            #lsdc-product-data .wp-tab-bar{
+            #product-data .inside,
+            #product-data .wp-tab-bar{
                 padding: 0;
             }
 
-            #lsdc-product-data .wp-tab-panel{
+            #product-data .wp-tab-panel{
                 min-height: 250px;
                 height: auto;
                 max-height: 100%;
             }
 
-            #lsdc-product-data .wp-tab-active{
+            #product-data .wp-tab-active{
                 border: none;
             }
 
-            #lsdc-product-data .wp-tab-bar li {
+            #product-data .wp-tab-bar li {
                 padding: 7px 10px;
                 display: block;
                 margin: 0;
@@ -170,9 +170,9 @@ class PostTypes_Product
                 background: #f3f3f3;
             }
 
-            #lsdc-product-data a:active,
-            #lsdc-product-data a:hover,
-            #lsdc-product-data a:focus{
+            #product-data a:active,
+            #product-data a:hover,
+            #product-data a:focus{
                 box-shadow: none;
                 outline: 0;
             }
@@ -181,12 +181,12 @@ class PostTypes_Product
                 text-decoration: none;
             }
 
-            #lsdc-product-data .wp-tab-bar li a span{
+            #product-data .wp-tab-bar li a span{
                 padding: 0 10px;
 
             }
 
-            #lsdc-product-data .wp-tab-bar li a{
+            #product-data .wp-tab-bar li a{
                 display:flex;
                 justify-content: left;
             }
@@ -203,7 +203,7 @@ class PostTypes_Product
                 margin: 4px 0 6px;
             }
 
-            #lsdc-product-data ul.wp-tab-bar { /* Style Vertical Tab Widh*/
+            #product-data ul.wp-tab-bar { /* Style Vertical Tab Widh*/
                 float: left;
                 width: 165px;
                 text-align: left;
@@ -211,7 +211,7 @@ class PostTypes_Product
                 padding: 0;
             }
 
-            #lsdc-product-data div.wp-tab-panel {
+            #product-data div.wp-tab-panel {
                 margin: 0 5px 0 125px;
             }
         </style>
@@ -375,7 +375,7 @@ class PostTypes_Product
             return 'revision';
         }
 
-        if ('lsdc-product' == $_POST['post_type']) // Checking Posttype
+        if ('product' == $_POST['post_type']) // Checking Posttype
         {
             if (!current_user_can('edit_page', $post_id)) {
                 return 'cannot edit page';
@@ -408,7 +408,7 @@ class PostTypes_Product
      */
     public function archive()
     {
-        if (is_post_type_archive('lsdc-product')) {
+        if (is_post_type_archive('product')) {
             return LSDC_PATH . 'frontend/templates/storefront/listing.php';
         }
     }
@@ -423,7 +423,7 @@ class PostTypes_Product
     {
         global $post;
 
-        if ($post->post_type == 'lsdc-product') {
+        if ($post->post_type == 'product') {
             if (file_exists(LSDC_PATH . 'frontend/templates/storefront/single.php')) {
                 return LSDC_PATH . 'frontend/templates/storefront/single.php';
             }
@@ -473,10 +473,25 @@ class PostTypes_Product
 
 
         if ('stock' === $column) {
+            if(get_post_meta($post_id, '_stock', true) > 999 ){
+                _e('Tersedia', 'lsdcommerce');
+                return;
+            }
+
+            if(get_post_meta($post_id, '_stock', true) == 0 ){
+                _e('Kosong', 'lsdcommerce');
+                return;
+            }
+
             echo esc_attr(ucfirst(get_post_meta($post_id, '_stock', true)));
         }
 
         if ( 'price' === $column ) {
+            if(lsdc_get_price( $post_id ) == 0 ){
+                _e('Gratis', 'lsdcommerce');
+                return;
+            }
+
             if( lsdc_get_price_discount( $post_id ) ){
                 echo '<span style="text-decoration: line-through">' . lsdc_currency_format( true, lsdc_get_price( $post_id ) ) .  '</span><br>';
                 echo lsdc_currency_format( true, lsdc_get_price_discount( $post_id ) );

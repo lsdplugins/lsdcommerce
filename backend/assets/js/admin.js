@@ -290,8 +290,10 @@ function lsdc_pad(num, size) {
 			state: state,
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
-			if (response.trim() == 'action_success') {
-				// give feedback
+			response = JSON.parse(response);
+			if (response.success == false) {
+				// TODO :: Change Text
+				alert("Gagal menyimpan status pembayaran");
 			}
 		}).fail(function () {
 			alert('Please check your internet connection');
@@ -299,29 +301,66 @@ function lsdc_pad(num, size) {
 
 	});
 
-	// Manage
+	// Payment - Manage
 	$(document).on("click", ".lsdc-payment-manage", function (e) {
-		if ($('form#' + $(this).attr('id') + '_form').length == 0) { // Checking Cache DOM
-			let html = $('#' + $(this).attr('id') + '_content').html();
+
+		// if ($('form#' + $(this).attr('id') + '_form').length == 0) { // Checking Cache DOM
+		// 	let html = $('#' + $(this).attr('id') + '_content').html();
+		// 	// Manipulate InnerHTML
+		// 	var $html = $('<div />', {
+		// 		html: html
+		// 	});
+		// 	$html.find('form').attr("id", $(this).attr('id') + '_form'); // Change ID
+		// 	$('#payment-editor').html($html.html());
+
+
+		// 	$(".selectlive" ).select2({
+		// 		allowClear: true,
+		// 		width: '100%',
+		// 	}); 
+
+		// }
+		let shimmer = `<div id="container-shimmer">
+			<div id="content-shimmer">
+				<div class="form-shimmer shimmer"></div>
+				<div class="form-shimmer shimmer"></div>
+				<div class="form-shimmer shimmer"></div>
+				<div class="form-shimmer shimmer"></div>
+			</div>
+		</div>`;
+		$('#payment-editor').html(shimmer);
+
+		let paymentID = $(this).attr('id');
+		// AJAX Request
+		$.post(lsdc_admin.ajax_url, {
+			action: 'lsdc_admin_payment_manage',
+			id: paymentID,
+			security: lsdc_admin.ajax_nonce,
+		}, function (response) {
+			let html = response;
+
 			// Manipulate InnerHTML
 			var $html = $('<div />', {
 				html: html
 			});
-			$html.find('form').attr("id", $(this).attr('id') + '_form'); // Change ID
+			$html.find('form').attr("id", paymentID + '_form'); // Change ID
 			$('#payment-editor').html($html.html());
 
+			$(".selectlive").select2({
+				allowClear: true,
+				width: '100%',
+			});
 
-			// $(".selectlive" ).select2({
-			// 	allowClear: true,
-			// 	width: '100%',
+			$('#payment-editor').find('.payment-editor').removeClass('d-hide');
 
-			// }); 
-
-		}
+		}).fail(function () {
+			alert('Please check your internet connection');
+		});
 
 		$('#payment-editor').closest('div.column').show();
 		$('#payment-editor').closest('div.column').css('z-index', '9999');
 	});
+
 
 	// Close Panel
 	$(document).on("click", ".panel-close", function (e) {
@@ -349,7 +388,8 @@ function lsdc_pad(num, size) {
 			serialize: serialize,
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
-			if (response.trim() == 'action_success') {
+			response = JSON.response(response);
+			if (response.success) {
 				// $(that).removeClass('loading');
 				// $('#payment-editor').closest('div.column').hide();
 				// $('#payment-editor').closest('div.column').css('z-index','1');
@@ -402,8 +442,10 @@ function lsdc_pad(num, size) {
 			state: state,
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
-			if (response.trim() == 'action_success') {
-				// give feedback
+			response = JSON.parse(response);
+			if (response.success == false) {
+				// TODO :: Change Text
+				alert("Gagal menyimpan status notifikasi");
 			}
 		}).fail(function () {
 			alert('Please check your internet connection');
@@ -445,7 +487,7 @@ function lsdc_pad(num, size) {
 			settings: $("#settings form").serialize(),
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {
-			if (response.trim() == 'action_success') {
+			if (response.success == true) {
 				$(that).removeClass('loading');
 			} else {
 				location.reload();

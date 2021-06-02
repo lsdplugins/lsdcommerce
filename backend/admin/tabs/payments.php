@@ -1,5 +1,5 @@
 <?php
-
+namespace LSDCommerce;
 /*********************************************/
 /* Displaying Payments Menu Registered
 /* wp-admin -> LSDCommerce -> Payments
@@ -17,22 +17,23 @@ class Payments_Admin
       <section id="payments">
 
         <div class="container columns col-gapless header">
-          <div class="column col-6"><?php _e('Method', 'lsddonation');?></div>
-          <div class="column col-2"><?php _e('Enabled', 'lsddonation');?></div>
-          <div class="column col-2"><?php _e('Confirmation', 'lsddonation');?></div>
-          <div class="column col-2 text-right"><?php _e('Actions', 'lsddonation');?></div>
+          <div class="column col-6"><?php _e('Metode', 'lsdcommerce');?></div>
+          <div class="column col-2"><?php _e('Status', 'lsdcommerce');?></div>
+          <div class="column col-2"><?php _e('Konfirmasi', 'lsdcommerce');?></div>
+          <div class="column col-2 text-right"><?php _e('Tindakan', 'lsdcommerce');?></div>
         </div>
         <?php 
-           $payment_sorted = lsdd_payment_sorted();
-           $payment_settings = lsdd_payment_settings();
+           $payment_sorted = lsdcommerce_payment_sorted();
+           $payment_settings = lsdc_payment_settings();
+
         ?>
-        <pre><?php //update_option( 'lsdd_payment_sorted', null ); ?></pre>
+        <pre><?php //update_option( 'lsdcommerce_payment_sorted', null ); ?></pre>
         <?php if( $payment_sorted  ) : $cache = array(); ?>
           <ul class="methods" id="draggable"> 
               <?php foreach ( $payment_sorted as $payment_id ): $obj = null; ?>
 
               <?php 
-                $obj = lsdd_payment_cache_object( $payment_settings, $payment_id, $cache );
+                $obj = lsdc_payment_cache_object( $payment_settings, $payment_id, $cache );
 
                 if( $obj == 'continue' ){
                   continue;
@@ -57,12 +58,12 @@ class Payments_Admin
                   </div>
 
                   <!-- Status -->
-                  <div class="column col-2 lsdd-payment-status">
+                  <div class="column col-2 lsdc-payment-status">
                     <div class="form-group">
 
                         <label class="form-switch">
                         <input type="checkbox" id="<?php echo $payment_id . '_status'; ?>" <?php echo ( $obj->get_status( $payment_id ) == 'on') ? 'checked' : ''; ?>>
-                        <i class="form-icon"></i> <?php _e('Enable', 'lsddonation');?>
+                        <i class="form-icon"></i> <?php _e('Aktifkan', 'lsdcommerce');?>
                         </label>
                     </div>
                   </div>
@@ -70,15 +71,15 @@ class Payments_Admin
                   <!-- Confirmation Type -->
                   <div class="column col-2 confirmation">
                     <?php if ( $payment_settings[$payment_id]['confirmation'] == 'manual'): ?>
-                      <span class="label label-secondary"><?php _e('Manual', 'lsddonation');?></span>
+                      <span class="label label-secondary"><?php _e('Manual', 'lsdcommerce');?></span>
                     <?php else: ?>
-                      <span class="label label-success"><?php _e('Automatic', 'lsddonation');?></span>
+                      <span class="label label-success"><?php _e('Otomatis', 'lsdcommerce');?></span>
                     <?php endif;?>
                   </div>
 
                   <!-- Manage Button -->
                   <div class="column col-2 text-right">
-                    <button class="btn lsdd-payment-manage" id="<?php echo $payment_id; ?>" data-instance="<?php echo $payment_id; ?>"><?php _e('Manage', 'lsddonation');?></button>
+                    <button class="btn lsdc-payment-manage" id="<?php echo $payment_id; ?>" data-instance="<?php echo $payment_id; ?>"><?php _e('Kelola', 'lsdcommerce');?></button>
                   </div>
 
                 </div>
@@ -90,10 +91,8 @@ class Payments_Admin
         <?php endif; ?>
       </section>
 
-      <button class="btn btn-primary mt-2 float-right" id="lsdd-payment-transferbank-create">
-      [BETA] <?php _e('Create Custom Bank', 'lsddonation'); ?>
-      </button>
     <?php
+    do_action('lsddonation/admin/payments');
   }
 }
 new Payments_Admin();
@@ -215,10 +214,10 @@ new Payments_Admin();
 
 <!-- Draggable AJAX Sender -->
 <script>
-  function lsddSaveSortedPayments(payments) {
+  function lsdcSaveSortedPayments(payments) {
 	  var formData = new FormData();
-	  formData.append('action', 'lsdd_admin_payment_sorting');
-	  formData.append('security', lsdd_admin.ajax_nonce);
+	  formData.append('action', 'lsdc_admin_payment_sorting');
+	  formData.append('security', lsdc_admin.ajax_nonce);
 
 	  for (var i = 0; i < payments.length; i++)
 		  formData.append('payments['+i+']', payments[i]);
@@ -246,11 +245,11 @@ new Payments_Admin();
 
       var idx=0
       var sorted = []
-      document.querySelectorAll('li.draggable .lsdd-payment-manage').forEach(instance => {
+      document.querySelectorAll('li.draggable .lsdc-payment-manage').forEach(instance => {
 	      sorted[idx] = instance.getAttribute('data-instance')
 		    idx++
 	    })
-      lsddSaveSortedPayments(sorted)
+      lsdcSaveSortedPayments(sorted)
 
     })
   })

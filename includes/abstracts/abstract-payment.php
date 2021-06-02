@@ -101,7 +101,7 @@ abstract class Payment_Template
      */
     public function get_status( string $payment_id = null )
     {
-        $status = get_option('lsdd_payment_status') != null ? get_option('lsdd_payment_status') : array();
+        $status = get_option('lsdcommerce_payment_status') != null ? get_option('lsdcommerce_payment_status') : array();
         $id = $payment_id ? $payment_id : $this->id;
         $status = isset($status[$id]) ? $status[$id] == 'on' ? 'on' : 'off' : 'off';
         return $status;

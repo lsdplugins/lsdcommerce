@@ -39,11 +39,9 @@ class Admin
      *
      * @param Options $options
      */
-    public static function register($slug, $name, $version)
+    public static function register(array $plugin)
     {
-        // TODO :: Make One Paramater;
-        // Self Instance by Static Method
-        $admin = new self($slug, $name, $version);
+        $admin = new self($plugin['slug'], $plugin['name'], $plugin['version']);
 
         add_action('admin_menu', [$admin, 'register_admin_menu']);
         add_action('admin_enqueue_scripts', [$admin, 'enqueue_styles']);
@@ -216,7 +214,7 @@ class Admin
             __('Produk', 'lsdcommerce'),
             __('Produk', 'lsdcommerce'),
             'manage_options',
-            'edit.php?post_type=lsdc-product',
+            'edit.php?post_type=product',
             '',
             LSDC_URL . 'backend/assets/svg/product.svg',
             50
@@ -236,11 +234,11 @@ class Admin
 
         // Submenu Product -> Categories
         add_submenu_page(
-            'edit.php?post_type=lsdc-product', 
+            'edit.php?post_type=product', 
             __('Kategori', 'lsdcommerce') , 
             __('Kategori', 'lsdcommerce') , 
             'manage_options', 
-            'edit-tags.php?taxonomy=lsdc-product-category&post_type=lsdc-product', 
+            'edit-tags.php?taxonomy=product-category&post_type=product', 
             ''
         );
 

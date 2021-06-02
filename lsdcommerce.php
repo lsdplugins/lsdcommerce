@@ -49,7 +49,6 @@ if (!version_compare(PHP_VERSION, '7.2', '>=')) {
     }
 
     require_once LSDC_PATH . 'includes/plugin.php';
-    LSDCommerce\Plugin::load();
 }
 
 /**
@@ -117,4 +116,3 @@ if (get_option('lsdcommerce_mail_error')) {
         echo wp_kses_post($html_message);
     });
 }
-?>

@@ -1,9 +1,8 @@
 <?php
-namespace LSDCommerce\Admin;
+namespace LSDCommerce;
 
-use LSDCommerce\DB\Reports_Repository;
-use LSDCommerce\Utils\Log;
-use LSDCommerce\Payments;
+// use LSDCommerce\DB\Reports_Repository;
+// use LSDCommerce\Utils\Log;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -13,22 +12,17 @@ class AJAX
 {
     public function __construct()
     {
-        add_action('wp_ajax_lsdcommerce_store_save', [$this, 'store_settings']);
+        add_action('wp_ajax_lsdcommerce_store_save', [$this, 'admin_store_settings']);
 
         add_action('wp_ajax_lsdc_admin_appearance_save', [$this, 'admin_appearance_save']);
 
-        // add_action('wp_ajax_lsdc_admin_notification_status', [$this, 'admin_notification_status']);
-
-        // add_action('wp_ajax_lsdc_admin_payment_sorting', [$this, 'admin_payment_sorting']);
-        // add_action('wp_ajax_lsdc_admin_payment_status', [$this, 'admin_payment_status']);
-        // add_action('wp_ajax_lsdc_admin_payment_manage', [$this, 'admin_payment_manage']);
-        // add_action('wp_ajax_lsdc_payment_delete', [$this, 'admin_payment_delete']);
-
-        // add_action('wp_ajax_lsdc_payment_settings', [$this, 'admin_payment_settings']);
-
-        // add_action('wp_ajax_lsdc_admin_settings_save', [$this, 'admin_settings_save']);
-
         // add_action('wp_ajax_lsdc_admin_option_save', [$this, 'admin_option_save']);
+
+
+
+
+        // add_action('wp_ajax_lsdc_payment_delete', [$this, 'admin_payment_delete']);
+        // add_action('wp_ajax_lsdc_payment_settings', [$this, 'admin_payment_settings']);
 
         // add_action('wp_ajax_lsdc_get_settings_invoice', [$this, 'admin_get_invoice']);
         // add_action('wp_ajax_lsdc_report_export_action', [$this, 'admin_report_export_action']);
@@ -39,11 +33,22 @@ class AJAX
 
         // add_action('wp_ajax_lsdc_notification_email_template', [$this, 'notification_email_template']);
         // add_action('wp_ajax_lsdc_notification_email_reset', [$this, 'notification_email_reset']);
+
+        // Admin Payment
+        add_action('wp_ajax_lsdc_admin_payment_status', [$this, 'admin_payment_status']);
+        add_action('wp_ajax_lsdc_admin_payment_sorting', [$this, 'admin_payment_sorting']);
+        add_action('wp_ajax_lsdc_admin_payment_manage', [$this, 'admin_payment_manage']);
+
+        // Admin Notification
+        add_action('wp_ajax_lsdc_admin_notification_status', [$this, 'admin_notification_status']);
+
+        // Admin Settings
+        add_action('wp_ajax_lsdc_admin_settings_save', [$this, 'admin_settings_save']);
     }
-    
+
     /**
      * Saving payment list based on user sort
-     * save into option 'lsdc_payment_sorted'
+     * save into option 'lsdcommerce_payment_sorted'
      *
      * @return void
      */
@@ -57,8 +62,35 @@ class AJAX
 
         // sanitize array: Any of the WordPress data sanitization functions can be used here
         $payments = array_map('esc_attr', $payments);
-        $success = update_option('lsdc_payment_sorted', $payments);
-        wp_send_json_success($payments);
+        $success = update_option('lsdcommerce_payment_sorted', $payments);
+        
+        wp_send_json_success();
+
+        wp_die();
+    }
+
+    
+    /**
+     * Change Payment Method Status
+     */
+    public function admin_payment_status()
+    {
+        if (!check_ajax_referer('lsdc_admin_nonce', 'security')) {
+            wp_send_json_error('Invalid security token sent.');
+        }
+
+        // TODO :: lsdc_sanitize_id
+        $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
+        $state = esc_attr($_REQUEST['state']);
+
+        $status = get_option('lsdcommerce_payment_status') != null ? get_option('lsdcommerce_payment_status') : array();
+        if (!is_array($status)) {
+            $status = array();
+        }
+        $status[$id] = $state;
+        update_option('lsdcommerce_payment_status', $status);
+
+        wp_send_json_success();
 
         wp_die();
     }
@@ -92,19 +124,17 @@ class AJAX
             wp_send_json_error('Invalid security token sent.');
         }
 
-        // Toggle Notification Method
         $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
         $state = esc_attr($_REQUEST['state']);
-        $lsdc_payment_status = get_option('lsdc_notification_status');
 
-        if ($lsdc_payment_status == '') {
-            $lsdc_payment_status = array();
+        $status = get_option('lsdcommerce_notification_status');
+        if ($status == '') {
+            $status = array();
         }
-
-        $lsdc_payment_status[$id] = $state;
-
-        update_option('lsdc_notification_status', $lsdc_payment_status);
-        echo 'action_success';
+        $status[$id] = $state;
+        update_option('lsdcommerce_notification_status', $status);
+        
+        wp_send_json_success();
 
         wp_die();
     }
@@ -184,33 +214,12 @@ class AJAX
         update_option('lsdc_notification_email', $settings);
 
         $clean_template_html = stripslashes($template_html);
-        file_put_contents(LSDD_STORAGE . '/email-' . $email_type . '-' . $country_selected . '.html', $clean_template_html); //save to file
+        file_put_contents(LSDC_STORAGE . '/email-' . $email_type . '-' . $country_selected . '.html', $clean_template_html); //save to file
 
         echo 'action_success';
         wp_die();
     }
 
-    public function admin_payment_status()
-    {
-        if (!check_ajax_referer('lsdc_admin_nonce', 'security')) {
-            wp_send_json_error('Invalid security token sent.');
-        }
-
-        // Toggle Payment Method
-        $id = str_replace("_status", "", esc_attr($_REQUEST['id']));
-
-        $state = esc_attr($_REQUEST['state']);
-        $lsdc_payment_status = get_option('lsdc_payment_status') != null ? get_option('lsdc_payment_status') : array();
-        if( !is_array($lsdc_payment_status) ){
-            $lsdc_payment_status = array();
-        }
-        $lsdc_payment_status[$id] = $state;
-
-        update_option('lsdc_payment_status', $lsdc_payment_status);
-        echo 'action_success';
-
-        wp_die();
-    }
 
     public function admin_payment_manage()
     {
@@ -219,14 +228,16 @@ class AJAX
         }
 
         $payment_id = esc_attr($_REQUEST['id']);
-        $payment_settings = get_option('lsdc_payment_settings');
-        $obj = $payment_settings[$payment_id];
+        $payment_settings = \lsdc_payment_settings();
 
-        if( isset($obj['template_class'])) {
-            $payment = new $obj['template_class'];
-            echo $payment->manage( $payment_id );
-        }else{
-            echo 'error';
+        $obj = $payment_settings[$payment_id];
+        $class = "LSDCommerce\\" . $obj['template_class'];
+        
+        if ( class_exists($class) ) {
+            $payment = new $class;
+            echo $payment->manage($payment_id);
+        } else {
+            wp_send_json_error("Payment Class Not Exist");
         }
 
         wp_die();
@@ -241,24 +252,23 @@ class AJAX
         // Toggle Payment Method
         $id = lsdc_sanitize_id($_REQUEST['id']);
 
-        $payment_data = get_option('lsdc_payment_settings'); 
-        $payment_sorted = get_option('lsdc_payment_sorted'); 
+        $payment_data = \lsdc_payment_settings();
+        $payment_sorted = get_option('lsdcommerce_payment_sorted');
 
-        if( isset($payment_data[$id]) || isset($payment_sorted[$id]) ){
+        if (isset($payment_data[$id]) || isset($payment_sorted[$id])) {
 
             unset($payment_data[$id]);
             unset($payment_sorted[$id]);
 
-            update_option('lsdc_payment_sorted', $payment_sorted);
-            update_option('lsdc_payment_settings', $payment_data);
+            update_option('lsdcommerce_payment_sorted', $payment_sorted);
+            update_option('lsdcommerce_payment_settings', $payment_data);
             echo 'action_success';
-        }else{
+        } else {
             echo 'error';
         }
 
         wp_die();
     }
-
 
     public function admin_payment_settings()
     {
@@ -268,7 +278,7 @@ class AJAX
 
         // Toggle Payment Method
         $origin_id = lsdc_sanitize_id($_REQUEST['id']);
-        $method = 'lsdc_payment_settings';
+        $method = 'lsdcommerce_payment_settings';
 
         $data = $_REQUEST['serialize'];
         $out = array();
@@ -298,12 +308,12 @@ class AJAX
         }
 
         // Check Key Not Existed :: Fix Empty Fields not empty
-        if( !isset($clean['excluded_fields']) ){
+        if (!isset($clean['excluded_fields'])) {
             $clean['excluded_fields'] = [];
         }
 
         // Check Key Not Existed :: Fix Empty Fields not empty
-        if( !isset($clean['required_fields']) ){
+        if (!isset($clean['required_fields'])) {
             $clean['required_fields'] = [];
         }
 
@@ -325,7 +335,6 @@ class AJAX
         } else {
             $payment_data[$origin_id] = $merge;
         }
-
 
         // CleanUp Data
         unset($payment_data[""]);
@@ -350,39 +359,41 @@ class AJAX
         $allowed_html = wp_kses_allowed_html('post');
         $sanitize = array();
         foreach ($out as $key => $item) {
-            if ($key == 'lsdc_tac') {
-                $item = wp_kses($item, $allowed_html);
-            } elseif ($key == 'report_permission') {
-                if (!is_array($item)) {
-                    $item = array();
-                }
+            // if ($key == 'lsdc_tac') {
+            //     $item = wp_kses($item, $allowed_html);
+            // } else
+            // if ($key == 'report_permission') {
+            //     if (!is_array($item)) {
+            //         $item = array();
+            //     }
 
-                $item = array_map('esc_attr', $item);
-            } else {
+            //     $item = array_map('esc_attr', $item);
+            // } else {
                 $item = sanitize_text_field($item);
-            }
+            // }
             $sanitize[$key] = $item; //restructure
         }
 
-        $settings = get_option('lsdc_general_settings');
+        $settings = get_option('lsdcommerce_general_settings');
+
         if (empty($settings)) {
             $merge = $sanitize;
         } else {
             $merge = array_merge($settings, $sanitize);
         }
 
-        update_option('lsdc_general_settings', $merge);
+        update_option('lsdcommerce_general_settings', $merge);
 
-        if ($settings['lsdc_currency'] != $out['lsdc_currency']) {
-            echo 'action_reload';
-        } else {
-            echo 'action_success';
-        }
+        // if ($settings['lsdc_currency'] != $out['lsdc_currency']) {
+        //     wp_send_json_success('reload');
+        // } else {
+        wp_send_json_success();
+        // }
 
         wp_die();
     }
 
-    public function store_settings()
+    public function admin_store_settings()
     {
         if (!check_ajax_referer('lsdc_admin_nonce', 'security')) {
             wp_send_json_error('Invalid security token sent.');
@@ -455,7 +466,7 @@ class AJAX
             $exportby[] = date('Y', strtotime($filter));
             $exportby[] = date('m', strtotime($filter));
             $exportby[] = date('d', strtotime($filter));
-        } else if (strtolower($filter) === 'last 7 day') {   
+        } else if (strtolower($filter) === 'last 7 day') {
             $exportby[] = date('Y-m-d');
             $exportby[] = date('Y-m-d', strtotime('-7 day'));
         } else if ($filter === lsdc_current_date('M')) {
@@ -557,7 +568,7 @@ class AJAX
             wp_send_json_error('Invalid security token sent.');
         }
 
-        // TODO : Error Notification 
+        // TODO : Error Notification
         $act = esc_attr($_POST['act']);
         $report_id = absint($_POST['id']);
         $data = isset($_POST['update_data']) ? $_POST['update_data'] : '';
@@ -656,13 +667,12 @@ class AJAX
         $settings[$email_type]['header_bg'] = sanitize_hex_color('#ff0000'); // header background
         update_option('lsdc_notification_email', $settings);
 
-        $source_template = file_get_contents(LSDD_PATH . 'templates/' . $email_type . '-source-' . lsdc_get_country() . '.html'); //getting template email by type
+        $source_template = file_get_contents(LSDC_PATH . 'templates/' . $email_type . '-source-' . lsdc_get_country() . '.html'); //getting template email by type
         $clean_template_html = stripslashes($source_template_html);
-        file_put_contents(LSDD_STORAGE . '/email-' . $email_type . '-' . lsdc_get_country() . '.html', $clean_template_html); //save to file
+        file_put_contents(LSDC_STORAGE . '/email-' . $email_type . '-' . lsdc_get_country() . '.html', $clean_template_html); //save to file
 
         echo 'action_success';
         wp_die();
     }
 }
 new AJAX;
-?>
