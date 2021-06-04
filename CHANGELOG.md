@@ -16,9 +16,11 @@
 
 # 0.3.0 - 4 Jun 2021
 [+] StoreFront
-  [ ] Product Listing Shortcode
-  [ ] Detail Product
-  [ ] Cart Management
+  [ ] Cart Management [ WP_SESSION ]
+    [ ] Add Cart via URL
+    [ ] Add Cart via AJAX
+  [ ] Product Listing Shortcode : HOLD
+  [ ] Detail Product : HOLD
   [ ] Checkout Shortcode
     [ ] Checkout Session
     [ ] Personal Data
@@ -31,7 +33,7 @@
 # 0.2.0 - 3 Jun 2021
 [+] Order Management
   [ ] Order Table Scheme
-  [ ] Order PostTypes
+  [ ] Order PostTypes `lsdcommerce_order`
   [ ] Design Pattern Multiple Storage Data { Custom Table and PostType }
   
 # 0.1.2 - 3 Jun 2021

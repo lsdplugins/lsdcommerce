@@ -1,5 +1,4 @@
 <?php
-namespace LSDCommerce\Common;
 
 // Exit if accessed directly
 if (!defined('ABSPATH')) {
@@ -10,8 +9,6 @@ class PostTypes_Product
 {
     public function __construct()
     {
-        $this->register();
-
         add_filter('add_meta_boxes', [$this, 'metabox_register']);
         add_action('save_post', [$this, 'metabox_save']);
         add_action('new_to_publish', [$this, 'metabox_save']);
@@ -21,6 +18,8 @@ class PostTypes_Product
 
         add_action('archive_template', [$this, 'archive']);
         add_filter('single_template', [$this, 'single'], 11);
+
+        add_action('init', [$this, 'register']);
     }
 
     /**
@@ -28,7 +27,7 @@ class PostTypes_Product
      *
      * @return void
      */
-    protected function register()
+    public function register()
     {
         $supports = array(
             'title',
@@ -68,37 +67,37 @@ class PostTypes_Product
 
         register_post_type('product', $args);
 
-        register_taxonomy(
-            'product-category',
-            'product',
-            array(
-                'hierarchical' => true,
-                'label' => __('Kategori'),
-                'query_var' => true,
-                'public' => true,
-                'rewrite' => array(
-                    'slug' => __('kategori', 'lsdcommerce'),
-                    'with_front' => true,
-                    'hierarchical' => true,
-                ),
-                'has_archive' => false,
-            )
-        );
+        // register_taxonomy(
+        //     'product-category',
+        //     'product',
+        //     array(
+        //         'hierarchical' => true,
+        //         'label' => __('Kategori'),
+        //         'query_var' => true,
+        //         'public' => true,
+        //         'rewrite' => array(
+        //             'slug' => __('kategori', 'lsdcommerce'),
+        //             'with_front' => true,
+        //             'hierarchical' => true,
+        //         ),
+        //         'has_archive' => false,
+        //     )
+        // );
 
-        $this->flush();
+        // $this->flush();
     }
 
     protected function flush()
     {
-        if (get_option('lsdcommerce_permalink_flush')) {
-            // Force and Flush
-            global $wp_rewrite;
-            $wp_rewrite->set_permalink_structure('/%postname%/');
-            update_option("rewrite_rules", false);
-            $wp_rewrite->flush_rules(true);
+        // if (get_option('lsdcommerce_permalink_flush')) {
+        //     // Force and Flush
+        //     global $wp_rewrite;
+        //     $wp_rewrite->set_permalink_structure('/%postname%/');
+        //     update_option("rewrite_rules", false);
+        //     $wp_rewrite->flush_rules(true);
 
-            delete_option('lsdcommerce_permalink_flush');
-        }
+        //     delete_option('lsdcommerce_permalink_flush');
+        // }
     }
 
     protected function js_inject()
@@ -391,7 +390,8 @@ class PostTypes_Product
         update_post_meta($post_id, '_stock_unit', sanitize_text_field($_POST['stock_unit']));
 
         update_post_meta($post_id, '_shipping_type', sanitize_text_field($_POST['shipping_tabs']));
-            update_post_meta($post_id, '_product_type', sanitize_text_field($_POST['shipping_tabs']));
+        update_post_meta($post_id, '_product_type', sanitize_text_field($_POST['shipping_tabs']));
+        
             // Digital
             update_post_meta($post_id, '_digital_url', sanitize_text_field($_POST['digital_url']));
             update_post_meta($post_id, '_digital_version', isset($_POST['digital_version']) && $_POST['digital_version'] != null ? sanitize_text_field($_POST['digital_version']) : '1.0.0');
@@ -424,8 +424,8 @@ class PostTypes_Product
         global $post;
 
         if ($post->post_type == 'product') {
-            if (file_exists(LSDC_PATH . 'frontend/templates/storefront/single.php')) {
-                return LSDC_PATH . 'frontend/templates/storefront/single.php';
+            if (file_exists(LSDC_PATH . 'frontend/templates/storefront/product/detail.php')) {
+                return LSDC_PATH . 'frontend/templates/storefront/product/detail.php';
             }
         }
         return $template;

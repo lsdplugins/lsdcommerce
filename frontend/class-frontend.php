@@ -5,10 +5,10 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Admin
+class Frontend
 {
     /**
-     * The current version of the plugin
+     * The current version of the plugin 
      *
      * @since 1.0.0
      * @access protected
@@ -43,10 +43,10 @@ class Admin
     {
         $admin = new self($plugin['slug'], $plugin['name'], $plugin['version']);
 
-        add_action('admin_menu', [$admin, 'register_admin_menu']);
-        add_action('admin_enqueue_scripts', [$admin, 'enqueue_styles']);
-        add_action('admin_enqueue_scripts', [$admin, 'enqueue_scripts']);
-        add_action('admin_init', [$admin, 'admin_init']);
+        // add_action('admin_menu', [$admin, 'register_admin_menu']);
+        // add_action('admin_enqueue_scripts', [$admin, 'enqueue_styles']);
+        // add_action('admin_enqueue_scripts', [$admin, 'enqueue_scripts']);
+        // add_action('admin_init', [$admin, 'admin_init']);
     }
 
     /**
@@ -54,16 +54,15 @@ class Admin
      *
      * @param object $parent Parent object.
      */
-    public function __construct( $slug, $name, $version )
+    public function __construct($slug, $name, $version)
     {
         $this->slug = $slug;
         $this->name = $name;
         $this->version = $version;
 
-                
         // Load Required File
-        require_once LSDC_PATH . 'backend/admin/tabs.php';
-        require_once LSDC_PATH . 'backend/admin/class-ajax.php';
+        // require_once LSDC_PATH . 'backend/admin/tabs.php';
+        // require_once LSDC_PATH . 'backend/admin/class-ajax.php';
         // require_once LSDC_PATH . 'backend/admin/class-autosetup.php';
         // require_once LSDC_PATH . 'backend/admin/class-dashboard.php';
         // require_once LSDC_PATH . 'backend/admin/class-updater.php';
@@ -76,7 +75,7 @@ class Admin
      */
     public function __clone()
     {
-        _doing_it_wrong(__FUNCTION__, esc_html(__('Cloning of is forbidden')), LSDC_VERSION );
+        _doing_it_wrong(__FUNCTION__, esc_html(__('Cloning of is forbidden')), LSDC_VERSION);
     } // End __clone ()
 
     /**
@@ -86,7 +85,7 @@ class Admin
      */
     public function __wakeup()
     {
-        _doing_it_wrong(__FUNCTION__, esc_html(__('Unserializing instances of is forbidden')), LSDC_VERSION );
+        _doing_it_wrong(__FUNCTION__, esc_html(__('Unserializing instances of is forbidden')), LSDC_VERSION);
     } // End __wakeup ()
 
     /**
@@ -97,9 +96,9 @@ class Admin
     public function admin_init()
     {
         // Redirect to License after activate plugin
-        if( get_option('lsdcommerce_activator_redirect') ){
+        if (get_option('lsdcommerce_activator_redirect')) {
             delete_option('lsdcommerce_activator_redirect');
-            exit( wp_redirect( admin_url( 'admin.php?page=lsdcommerce' ) ) );
+            exit(wp_redirect(admin_url('admin.php?page=lsdcommerce')));
         }
 
         // Handle Ignoring Email Failure Notice
@@ -127,13 +126,13 @@ class Admin
                 wp_enqueue_style('spectre-icons', LSDC_URL . 'backend/assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all');
                 wp_enqueue_style('spectre', LSDC_URL . 'backend/assets/lib/spectre/spectre.min.css', array(), '0.5.8', 'all');
 
-                wp_enqueue_style( $this->slug, LSDC_URL . 'backend/assets/css/admin-settings' . $dev_css, array(), $this->version, 'all');
+                wp_enqueue_style($this->slug, LSDC_URL . 'backend/assets/css/admin-settings' . $dev_css, array(), $this->version, 'all');
                 wp_enqueue_style('wp-color-picker');
             }
         }
 
-        if( strpos(get_post_type( get_the_ID() ), 'lsdc-') !== false ){
-            wp_enqueue_style( $this->slug . '-product', LSDC_URL . 'backend/assets/css/admin-product' . $dev_css, array(), $this->version, 'all');
+        if (strpos(get_post_type(get_the_ID()), 'lsdc-') !== false) {
+            wp_enqueue_style($this->slug . '-product', LSDC_URL . 'backend/assets/css/admin-product' . $dev_css, array(), $this->version, 'all');
         }
 
         // Global Admin Styles
@@ -151,7 +150,7 @@ class Admin
         $dev_js = '.js';
 
         // Load Lib Admin Restrict only LSDCommerce Page
-        if (isset($_GET['page']) && $_GET['page'] == 'lsdcommerce' || strpos(get_post_type( get_the_ID() ), 'lsdc-') !== false || isset($_GET['page']) && strpos($_GET['page'], 'lsdc-') !== false) {
+        if (isset($_GET['page']) && $_GET['page'] == 'lsdcommerce' || strpos(get_post_type(get_the_ID()), 'lsdc-') !== false || isset($_GET['page']) && strpos($_GET['page'], 'lsdc-') !== false) {
             // Load Admin Js
             wp_enqueue_script($this->slug, LSDC_URL . 'backend/assets/js/admin' . $dev_js, array('jquery', 'wp-color-picker'), $this->version, false);
             wp_localize_script($this->slug, 'lsdc_admin', array(
@@ -216,7 +215,6 @@ class Admin
             LSDC_URL . 'backend/assets/svg/product.svg',
             50
         );
-  
 
         // Menu Orders
         add_menu_page(
@@ -231,27 +229,27 @@ class Admin
 
         // Submenu Product -> Categories
         add_submenu_page(
-            'edit.php?post_type=product', 
-            __('Kategori', 'lsdcommerce') , 
-            __('Kategori', 'lsdcommerce') , 
-            'manage_options', 
-            'edit-tags.php?taxonomy=product-category&post_type=product', 
+            'edit.php?post_type=product',
+            __('Kategori', 'lsdcommerce'),
+            __('Kategori', 'lsdcommerce'),
+            'manage_options',
+            'edit-tags.php?taxonomy=product-category&post_type=product',
             ''
         );
 
         // Add Shortcode List to wp-admin > LSDCommerce > Appearence
         require_once LSDC_PATH . 'backend/admin/class-shortcode-lists.php';
-        Admin\Shortcode_Lists::addShortcodeList( $this->slug, $this->name, array(
+        Admin\Shortcode_Lists::addShortcodeList($this->slug, $this->name, array(
             ['shortcode' => '[lsdcommerce_products]', 'description' => __("Menampilkan Produk", 'lsdcommerce')],
             ['shortcode' => '[lsdcommerce_checkout]', 'description' => __("Menampilkan Pembayaran", 'lsdcommerce')],
         ));
 
         // Add Switch Options to wp-admin > LSDCommerce > Appearence
         require_once LSDC_PATH . 'backend/admin/class-switch-options.php';
-        Admin\Switch_Options::addOptions( $this->slug, $this->name, array(
+        Admin\Switch_Options::addOptions($this->slug, $this->name, array(
             'lsdc_unique_code' => ['name' => __('Kode Unik', 'lsdcommerce'), 'desc' => __('Matikan/Hidupkan Kode Unik', 'lsdcommerce'), 'override' => false],
         ));
-        
+
     }
 
     /**
@@ -276,4 +274,3 @@ class Admin
         include_once LSDC_PATH . 'core/admin/orders/orders.php';
     }
 }
-?>

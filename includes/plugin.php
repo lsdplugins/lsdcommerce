@@ -60,6 +60,10 @@ final class Plugin
         require_once LSDC_PATH . 'includes/helpers/payment.php';
         require_once LSDC_PATH . 'includes/helpers/getter.php';
 
+        
+        // Register Post Type
+        require_once LSDC_PATH . 'includes/common/class-posttype-product.php';
+        // require_once LSDC_PATH . 'includes/common/class-posttype-order.php';
         // require_once LSDC_PATH . 'includes/common/class-usages.php';
 
         // Load FrontEnd Class [Only for FrontEnd Needs]
@@ -75,8 +79,8 @@ final class Plugin
 
         // Module Payments
         require_once LSDC_PATH . 'backend/modules/payments/class-payment-static-qr.php';
-        // require_once LSDC_PATH . 'backend/modules/payments/class-payment-shopee-md.php';
         require_once LSDC_PATH . 'backend/modules/payments/class-payment-transfer-bank.php';
+        // require_once LSDC_PATH . 'backend/modules/payments/class-payment-shopee-md.php';
 
         // Module Notification
         require_once LSDC_PATH . 'backend/modules/notifications/class-notification-webhook.php';
