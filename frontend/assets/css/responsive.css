@@ -1,0 +1,8 @@
+/* Desktop Style */
+@media (min-width: 481px) and (max-width: 1140px) {
+  
+    .lsdcommerce .product-item-name{
+        font-size: 1.2rem;
+    }
+    
+}

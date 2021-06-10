@@ -1,0 +1,96 @@
+/* Pane Metabox */
+
+/* Tab Component */
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tab li {
+  margin: 0 !important;
+}
+
+.tab li a {
+  padding: 7px 20px !important;
+  margin: 0 !important;
+}
+
+.tabs input[type="radio"] {
+  margin-top: 11px;
+  margin-right: -5px;
+}
+
+.form-wide {
+  width: 59% !important;
+}
+
+.form-wd50 {
+  width: 50% !important;
+}
+
+.lsdp-hide {
+  position: absolute;
+  opacity: 0;
+  display: none;
+}
+
+.label {
+  width: 100%;
+  padding: 10px 15px;
+  cursor: pointer;
+  color: #7f7f7f;
+  transition: background 0.1s, color 0.1s;
+}
+
+.input:focus+.label {
+  box-shadow: inset 0px 0px 0px 3px #2aa1c0;
+  z-index: 1;
+}
+
+input[name="product_tabs"]:checked+.label {
+  background: #333;
+  color: #fff;
+}
+
+@media (min-width: 600px) {
+  .label {
+    width: auto;
+  }
+}
+
+.pane-metabox {
+  display: none;
+  padding: 10px 0;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .pane-metabox {
+    order: 99;
+  }
+}
+
+input:checked+.label+.pane-metabox {
+  display: block;
+}
+
+.input-group input {
+  margin-bottom: 7px;
+}
+
+.pane-metabox {
+  display: none;
+  padding: 10px 0;
+  background: #fff;
+  width: 100%;
+}
+
+.input:checked+.label+.panel {
+  display: block;
+}
+
+.input-group input {
+  margin-bottom: 7px;
+}

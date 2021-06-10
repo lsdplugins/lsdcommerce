@@ -1,6 +1,6 @@
 <?php
 // TODO :: Builder untuk Customer
-class LSDD_DB_Builder {
+class LSDC_DB_Builder {
 
     private $name;
 
@@ -33,29 +33,29 @@ class LSDD_DB_Builder {
     // }
 
     function build() {
-        return new LSDD_DB($this);
+        return new LSDC_DB($this);
     }
 }
 
-class LSDD_DB {
+class LSDC_DB {
     private $sodium;
     private $fat;
     private $carbo;
 
     static function insert($s) {
-        return new LSDD_DB_Builder($s);
+        return new LSDC_DB_Builder($s);
     }
 
     /**
      * It is preferred to call NutritionalFacts::createBuilder
      * to calling this constructor directly.
      */
-    // function __construct(LSDD_DB_Builder $b) {
+    // function __construct(LSDC_DB_Builder $b) {
     //     $his->set = $b->set();
     // }
 }
 
 echo '<pre>';
-var_dump(LSDD_DB::insert('test'));
+var_dump(LSDC_DB::insert('test'));
 echo '</pre>';
 ?>

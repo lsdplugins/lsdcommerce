@@ -6,7 +6,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Plugin
+final class Plugin
 {
     /**
      * The name of this plugin
@@ -32,14 +32,19 @@ class Plugin
      * Loads the plugin into WordPress.
      */
 
-     /**
-      * Singleton Load
-      *
-      * @return void
-      */
+    /**
+     * Singleton Load
+     *
+     * @return void
+     */
     public static function load()
     {
         $lsdcommerce = new self();
+        $plugin = array('slug' => 'lsdcommerce', 'name' => 'LSDCommerce', 'version' => LSDC_VERSION);
+
+        // Activation and Deactivation
+        register_activation_hook(LSDC_BASE, [$lsdcommerce, 'activation']);
+        register_deactivation_hook(LSDC_BASE, [$lsdcommerce, 'uninstall']);
 
         // Bind to Init
         add_action('plugins_loaded', [$lsdcommerce, 'loaded']);
@@ -47,24 +52,46 @@ class Plugin
         /*************** GLOBAL /****************/
         // TODO :: Cleanup Helper Function
         // require_once LSDC_PATH . 'core/modules/utils/class-logger.php';
-        // require_once LSDC_PATH . 'core/modules/utils/class-licenses.php';
+        require_once LSDC_PATH . 'includes/common/class-i18n.php';
+
         // TODO :: Server Timing for Performance
         require_once LSDC_PATH . 'includes/helpers/currency.php';
-        // require_once LSDC_PATH . 'includes/modules/helpers/helpers.php';
-        // require_once LSDC_PATH . 'includes/modules/helpers/cart.php';
-        require_once LSDC_PATH . 'includes/common/class-i18n.php';
-        // require_once LSDC_PATH . 'includes/common/class-usages.php';
+        require_once LSDC_PATH . 'includes/helpers/price.php';
+        require_once LSDC_PATH . 'includes/helpers/payment.php';
+        require_once LSDC_PATH . 'includes/helpers/getter.php';
+
         
+        // Register Post Type
+        require_once LSDC_PATH . 'includes/common/class-posttype-product.php';
+        // require_once LSDC_PATH . 'includes/common/class-posttype-order.php';
+        // require_once LSDC_PATH . 'includes/common/class-usages.php';
+
         // Load FrontEnd Class [Only for FrontEnd Needs]
         if (is_admin()) {
             require_once LSDC_PATH . 'backend/admin/class-admin.php';
-            Admin::register( self::$slug, self::$name, self::$version );
+            Admin::register($plugin);
         }
 
-        // Registrar
-        // require_once LSDC_PATH . 'includes/abstracts/class-notification-registrar.php';
-        // require_once LSDC_PATH . 'includes/abstracts/class-payment-registrar.php';
-        // require_once LSDC_PATH . 'includes/abstracts/class-form-registrar.php'
+        // Registrar Module
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-notification.php';
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-payment.php';
+        require_once LSDC_PATH . 'includes/registrar/class-registrar-shipping.php';
+
+        // Module Payments
+        require_once LSDC_PATH . 'backend/modules/payments/class-payment-static-qr.php';
+        require_once LSDC_PATH . 'backend/modules/payments/class-payment-transfer-bank.php';
+        // require_once LSDC_PATH . 'backend/modules/payments/class-payment-shopee-md.php';
+
+        // Module Notification
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-webhook.php';
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-whatsapp.php';
+        require_once LSDC_PATH . 'backend/modules/notifications/class-notification-email.php';
+
+        // Module Shipping
+        require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-email.php'; 
+        require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-rajaongkir-starter.php';
+        // require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-cod.php'; // bayar dirumah
+        // require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-pickup.php'; // ambil ketempat
 
         // Load Notification Services
         // require_once LSDC_PATH . '/core/services/scheduler/scheduler.php';
@@ -73,7 +100,7 @@ class Plugin
         // require_once LSDC_PATH . '/includes/wp.php';
         // Wordpress::register();
 
-        if( !is_admin() ){
+        if (!is_admin()) {
             // Load FrontEnd Class [Only for FrontEnd Needs]
             // require_once LSDC_PATH . 'core/frontend/class-frontend.php';
             // Frontend::register($plugin_slug, $plugin_name, $plugin_version);
@@ -144,18 +171,6 @@ class Plugin
         // Unserializing instances of the class is forbidden.
         _doing_it_wrong(__FUNCTION__, esc_html__('Something went wrong.', 'lsdcommerce'), LSDC_VERSION);
     }
-
-    /**
-     * Constructing Class
-     */
-    public function __construct()
-    {
-        self::$version = LSDC_VERSION;
-        self::$slug = 'lsdcommerce';
-        self::$name = 'LSDCommerce';
-
-        // Activation and Deactivation
-        register_activation_hook(LSDC_BASE, [$this, 'activation']);
-        register_deactivation_hook(LSDC_BASE, [$this, 'uninstall']);
-    }
 }
+
+Plugin::load();

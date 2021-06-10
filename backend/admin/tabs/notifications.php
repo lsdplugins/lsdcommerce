@@ -1,9 +1,9 @@
 <?php
-use LSDDonation\Notifications;
+namespace LSDCommerce;
 
 /*********************************************/
 /* Displaying Notifications Menu Registered
-/* wp-admin -> LSDDonation -> Notifications
+/* wp-admin -> LSDCommerce -> Notifications
 /********************************************/
 
 if (!defined('ABSPATH')) {
@@ -15,7 +15,7 @@ class Notification_Admin
     public function __construct()
     {
         echo '<div id="notifications" class="verticaltab">';
-        foreach (Notifications\NotificationsRegistrar::registered() as $item) : ?>
+        foreach (Notification::registered() as $item) : ?>
             <section class="tabitem">
                 <!-- Tab -->
                 <?php echo $item->tab(); ?>

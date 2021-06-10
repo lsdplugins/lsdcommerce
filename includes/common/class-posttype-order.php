@@ -12,13 +12,12 @@ class Order
     {
         $this->register();
      
+        // add_filter( 'add_meta_boxes', [ $this, 'metabox_register' ] );
+        // add_action( 'save_post', [ $this, 'metabox_save' ] );
+        // add_action( 'new_to_publish', [ $this, 'metabox_save' ] );
 
-        add_filter( 'add_meta_boxes', [ $this, 'metabox_register' ] );
-        //    add_action( 'save_post', [ $this, 'metabox_save' ] );
-        //    add_action( 'new_to_publish', [ $this, 'metabox_save' ] );
-
-        add_filter('manage_lsdc-order_posts_columns', [$this, 'column_header']);
-        add_action('manage_lsdc-order_posts_custom_column', [$this, 'columen_content'], 10, 2);
+        // add_filter('manage_lsdcommerce_order_posts_columns', [$this, 'column_header']);
+        // add_action('manage_lsdcommerce_order_posts_custom_column', [$this, 'columen_content'], 10, 2);
     }
 
     /**
@@ -64,7 +63,7 @@ class Order
             'exclude_from_search' => true,
         );
 
-        register_post_type('lsdc-order', $args);
+        register_post_type('lsdcommerce_order', $args);
         $this->flush();
     }
 
@@ -86,13 +85,13 @@ class Order
         ?>
         <script>
            jQuery( document ).ready(function() {
-               jQuery('body.post-type-lsdc-order #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
+               jQuery('body.post-type-lsdcommerce_order #postimagediv .inside').append('<p class="recommended" id="donation-recommended">Recommended image size 392 x 210px</p>');
             });
 
            jQuery(document).on('change', 'input[name="order_type"]',  function() {
-               jQuery('body.post-type-lsdc-order #postimagediv .recommended').hide()
+               jQuery('body.post-type-lsdcommerce_order #postimagediv .recommended').hide()
                 if(jQuery('input[name="order_type"]:checked').val() ){
-                   jQuery('body.post-type-lsdc-order #postimagediv #' +jQuery('input[name="order_type"]:checked').val().trim() + '-recommended').show();
+                   jQuery('body.post-type-lsdcommerce_order #postimagediv #' +jQuery('input[name="order_type"]:checked').val().trim() + '-recommended').show();
                 }
             });
         </script>
@@ -101,32 +100,12 @@ class Order
 
     public function metabox_register()
     {
-        // add_meta_box(
-        //     'lsdc-order-type',
-        //     __('Order Type', 'lsdcommerce'),
-        //     [$this, 'metabox_render'],
-        //     'lsdc-order',
-        //     'side',
-        //     'high'
-        // );
-        // $this->js_inject();
+
     }
 
     public function metabox_render()
     {
-        // Add an nonce field so we can check for it later.
-        global $post;
-        wp_nonce_field(basename(__FILE__), 'lsdc_admin_nonce');
 
-        // $type_selected = ( get_post_meta( $post->ID, '_order_type', true ) != null ) ? get_post_meta( $post->ID, '_order_type', true ) : 'donation'; //my_key is a meta_key. Change it to whatever you want ?>
-        <!--
-        <div class="order-type" style="margin-top:10px;">
-            <?php //foreach ( lsdc-order_type() as $key => $value) : ?>
-                <div style="padding:3px 0;"><input type="radio" name="order_type" value="<?php echo $key; ?>" <?php echo ($key == $type_selected) ? 'checked' : '' ?>><?php echo $value; ?></div>
-            <?php //endforeach; ?>
-        </div> -->
-
-        <?php
     }
 
     public function metabox_save($postID)
@@ -154,7 +133,7 @@ class Order
             return 'cannot edit post';
         }
 
-        update_post_meta($postID, '_order_type', sanitize_text_field($_POST['order_type']));
+        // update_post_meta($postID, '_order_type', sanitize_text_field($_POST['order_type']));
     }
 
     public function column_header($columns)

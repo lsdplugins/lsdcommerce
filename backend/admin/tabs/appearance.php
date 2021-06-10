@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 
     <br>
 
-    <button class="btn btn-primary w-120" id="lsdd-admin-apperance-save">
+    <button class="btn btn-primary w-120" id="lsdc-admin-apperance-save">
       <?php _e('Simpan', 'lsdcommerce');?>
     </button>
   </section>
@@ -34,7 +34,7 @@ if (!defined('ABSPATH')) {
   <!-- Sidebar - Shortcodes -->
   <section class="column col-4">
     <a class="btn btn-primary " target="_blank" href="https://learn.lsdplugins.com/docs/umum/wordpress/apa-itu-shortcodes/">
-      <?php _e('Learn how to use shortcode', 'lsdcommerce');?>
+      <?php _e('Cara menggunakan shortcode', 'lsdcommerce');?>
     </a>
 
     <?php

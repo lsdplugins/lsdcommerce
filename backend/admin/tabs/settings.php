@@ -20,25 +20,23 @@ if (!defined('ABSPATH')) {
             $page_query = new WP_Query(array('posts_per_page' => -1, 'post_type' => 'page', 'post_status' => 'publish'));
 
             $payment_page = empty($settings['payment_page']) ? '' : abs($settings['payment_page']);
-            // $currency_selected = isset($settings['currency']) ? esc_attr($settings['currency']) : 'IDR';
-            $report_permission = isset($settings['report_permission']) ? (array) $settings['report_permission'] : array();
 
             $payment_instruction = isset($settings['payment_instruction']) ? esc_attr($settings['payment_instruction']) : '';
             $payment_confirmation = isset($settings['payment_confirmation']) ? esc_url($settings['payment_confirmation']) : '';
 
-            $currency = strtolower(lsdc_get_currency());
+            $currency_selected = lsdc_get_currency();
         ?>
 
         <!-- Payment Url -->
         <div class="form-group">
             <div class="col-3 col-sm-12">
                 <label class="form-label" for="payment_page">
-                    <?php _e('Payment Page', 'lsdcommerce');?>
+                    <?php _e('Halaman Pembayaran Utama', 'lsdcommerce');?>
                 </label>
             </div>
             <div class="col-5 col-sm-12">
                 <select class="form-select" name="payment_page">
-                    <option value=""><?php _e('Please Choose your Payment Page', 'lsdcommerce');?></option>
+                    <option value=""><?php _e('Pilih Halaman Pembayaran', 'lsdcommerce');?></option>
                     <?php if ($page_query->have_posts()): ?>
                         <?php while ($page_query->have_posts()): $page_query->the_post();?>
                                 <option value="<?php the_ID();?>" <?php echo $payment_page == get_the_ID() ? 'selected' : ''; ?>><?php the_title();?></option>
@@ -51,7 +49,7 @@ if (!defined('ABSPATH')) {
         <!-- Currency -->
         <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="currency"><?php _e('Currency', 'lsdcommerce');?></label>
+                <label class="form-label" for="currency"><?php _e('Mata Uang', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
                 <select class="form-select" name="currency">
@@ -65,18 +63,18 @@ if (!defined('ABSPATH')) {
         <!-- Payment Instruction -->
         <!-- <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="lsdd_tac"><?php _e('Payment Instruction', 'lsdcommerce');?></label>
+                <label class="form-label" for="lsdc_tac"><?php _e('Payment Instruction', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
                 <textarea class="form-input" name="payment_instruction" placeholder='<?php echo __('In payment transactions using the transfer method, the addition of a unique code will be made as a Donation.', 'lsdcommerce'); ?>' rows="2" ><?php echo $payment_instruction; ?></textarea>
             </div>
         </div> -->
 
-        <div class="divider" data-content="<?php _e('Nominal and Confirmation', 'lsdcommerce');?>"></div>
+        <div class="divider" data-content="<?php _e('Tambahan', 'lsdcommerce');?>"></div>
 
         <div class="form-group">
             <div class="col-3 col-sm-12">
-                <label class="form-label" for="lsdd_confirmation"><?php _e('Manual Confirmation Link', 'lsdcommerce');?></label>
+                <label class="form-label" for="lsdc_confirmation"><?php _e('Link Konfirmasi Manual', 'lsdcommerce');?></label>
             </div>
             <div class="col-5 col-sm-12">
                 <input type="text" class="form-input" name="payment_confirmation" placeholder="https://wa.me/62821321414121" value="<?php echo $payment_confirmation;?>"/>
@@ -86,6 +84,6 @@ if (!defined('ABSPATH')) {
         <?php do_action('lsdcommerce/admin/settings');?>
 
         <br>
-        <button class="btn btn-primary" id="lsdd_admin_settings_save" style="width:120px"><?php _e('Simpan', 'lsdcommerce');?></button>
+        <button class="btn btn-primary" id="lsdc_admin_settings_save" style="width:120px"><?php _e('Simpan', 'lsdcommerce');?></button>
     </form>
 </section>
