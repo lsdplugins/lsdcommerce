@@ -5,16 +5,12 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Confirmation
+class Listing
 {
     public function __construct()
     {
-        add_shortcode('lsdcommerce_confirmation', [$this, 'render']);
+        add_shortcode('lsdcommerce_product_listing', [$this, 'render']);
     }
-
-    public function order_confirmation(){}
-
-    public function order_status(){}
 
     public function render($atts)
     {
@@ -30,4 +26,4 @@ class Confirmation
         return $render;
     }
 }
-new Confirmation;
+new Listing;

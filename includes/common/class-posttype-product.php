@@ -424,8 +424,8 @@ class PostTypes_Product
         global $post;
 
         if ($post->post_type == 'product') {
-            if (file_exists(LSDC_PATH . 'frontend/templates/storefront/product/detail.php')) {
-                return LSDC_PATH . 'frontend/templates/storefront/product/detail.php';
+            if (file_exists(LSDC_PATH . 'frontend/templates/storefront/product/single.php')) {
+                return LSDC_PATH . 'frontend/templates/storefront/product/single.php';
             }
         }
         return $template;

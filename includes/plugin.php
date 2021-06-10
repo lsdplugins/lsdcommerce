@@ -59,8 +59,9 @@ final class Plugin
         require_once LSDC_PATH . 'includes/helpers/price.php';
         require_once LSDC_PATH . 'includes/helpers/payment.php';
         require_once LSDC_PATH . 'includes/helpers/getter.php';
+        require_once LSDC_PATH . 'includes/helpers/setter.php';
+        require_once LSDC_PATH . 'includes/helpers/helper.php';
 
-        
         // Register Post Type
         require_once LSDC_PATH . 'includes/common/class-posttype-product.php';
         // require_once LSDC_PATH . 'includes/common/class-posttype-order.php';
@@ -88,7 +89,7 @@ final class Plugin
         require_once LSDC_PATH . 'backend/modules/notifications/class-notification-email.php';
 
         // Module Shipping
-        require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-email.php'; 
+        require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-email.php';
         require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-rajaongkir-starter.php';
         // require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-cod.php'; // bayar dirumah
         // require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-pickup.php'; // ambil ketempat
@@ -102,12 +103,17 @@ final class Plugin
 
         if (!is_admin()) {
             // Load FrontEnd Class [Only for FrontEnd Needs]
-            // require_once LSDC_PATH . 'core/frontend/class-frontend.php';
-            // Frontend::register($plugin_slug, $plugin_name, $plugin_version);
+            require_once LSDC_PATH . 'frontend/class-frontend.php';
+            Frontend::register($plugin);
+
+            require_once LSDC_PATH . 'frontend/modules/member/tab-functions.php';
 
             // Shortcodes
-            // require_once LSDC_PATH . 'core/shortcodes/class-shortcode-listing.php';
-            // require_once LSDC_PATH . 'core/shortcodes/class-shortcode-payments.php';
+            require_once LSDC_PATH . 'frontend/shortcodes/class-checkout.php';
+            require_once LSDC_PATH . 'frontend/shortcodes/class-confirmation.php';
+            require_once LSDC_PATH . 'frontend/shortcodes/class-listing.php';
+            require_once LSDC_PATH . 'frontend/shortcodes/class-member.php';
+            require_once LSDC_PATH . 'frontend/shortcodes/class-storefront.php';
         }
 
     }

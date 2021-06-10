@@ -1,6 +1,8 @@
 <?php
 namespace LSDCommerce;
 
+// use LSDCommerce\Payments;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -8,7 +10,7 @@ if (!defined('ABSPATH')) {
 class Frontend
 {
     /**
-     * The current version of the plugin 
+     * The current version of the plugin
      *
      * @since 1.0.0
      * @access protected
@@ -37,16 +39,19 @@ class Frontend
     /**
      * Register the admin page class with all the appropriate WordPress hooks.
      *
-     * @param Options $options
+     * @param array $plugin
      */
-    public static function register(array $plugin)
+    public static function register( array $plugin )
     {
-        $admin = new self($plugin['slug'], $plugin['name'], $plugin['version']);
+        $frontend = new self($plugin['slug'], $plugin['name'], $plugin['version']);
 
-        // add_action('admin_menu', [$admin, 'register_admin_menu']);
-        // add_action('admin_enqueue_scripts', [$admin, 'enqueue_styles']);
-        // add_action('admin_enqueue_scripts', [$admin, 'enqueue_scripts']);
-        // add_action('admin_init', [$admin, 'admin_init']);
+        add_action('wp_enqueue_scripts', [$frontend, 'enqueue_styles']);
+        add_action('wp_enqueue_scripts', [$frontend, 'enqueue_scripts']);
+        add_action('wp_head', [$frontend, 'header']);
+
+
+        // add_filter('lsdcommerce/payment/extras', [$frontend,'set_unique_code']);
+
     }
 
     /**
@@ -54,223 +59,211 @@ class Frontend
      *
      * @param object $parent Parent object.
      */
-    public function __construct($slug, $name, $version)
+    public function __construct( $slug, $name, $version )
     {
         $this->slug = $slug;
         $this->name = $name;
         $this->version = $version;
-
-        // Load Required File
-        // require_once LSDC_PATH . 'backend/admin/tabs.php';
-        // require_once LSDC_PATH . 'backend/admin/class-ajax.php';
-        // require_once LSDC_PATH . 'backend/admin/class-autosetup.php';
-        // require_once LSDC_PATH . 'backend/admin/class-dashboard.php';
-        // require_once LSDC_PATH . 'backend/admin/class-updater.php';
+        $this->register_ajax();
     }
 
     /**
-     * Cloning is forbidden.
-     *
-     * @since 1.0.0
-     */
-    public function __clone()
-    {
-        _doing_it_wrong(__FUNCTION__, esc_html(__('Cloning of is forbidden')), LSDC_VERSION);
-    } // End __clone ()
-
-    /**
-     * Unserializing instances of this class is forbidden.
-     *
-     * @since 1.0.0
-     */
-    public function __wakeup()
-    {
-        _doing_it_wrong(__FUNCTION__, esc_html(__('Unserializing instances of is forbidden')), LSDC_VERSION);
-    } // End __wakeup ()
-
-    /**
-     * Initiatie Admin
-     *
-     * @return void
-     */
-    public function admin_init()
-    {
-        // Redirect to License after activate plugin
-        if (get_option('lsdcommerce_activator_redirect')) {
-            delete_option('lsdcommerce_activator_redirect');
-            exit(wp_redirect(admin_url('admin.php?page=lsdcommerce')));
-        }
-
-        // Handle Ignoring Email Failure Notice
-        if (isset($_GET['mail-failed-ignored'])) {
-            update_option('lsdcommerce_mail_error', false);
-            header("Refresh:0; url=" . get_admin_url());
-        }
-    }
-
-    /**
-     * Register the stylesheets for the admin area.
+     * Register the stylesheets for the public-facing side of the site.
      *
      * @since    1.0.0
      */
     public function enqueue_styles()
     {
-        // $dev_css = WP_DEBUG == true ? '.css' : '-min.css';
-        $dev_css = '.css';
+        // Loading Base CSS
+        wp_enqueue_style('lsdplugins-core', plugins_url('/frontend/assets/lib/lsdplugins/lsdplugins.css', LSDC_BASE), array(), '1.0.1', 'all');
 
-        if (isset($_GET['page'])) {
-            if ($_GET['page'] == 'lsdcommerce' || strpos($_GET['page'], 'lsdc-') !== false) {
-                // wp_enqueue_style('select2', LSDC_URL . 'assets/lib/select2/select2.min.css', array(), '4.1.0', 'all');
+        // Load Theme CSS
+        wp_register_style('lsdc-single', plugins_url('/frontend/assets/css/single.css', LSDC_BASE), array(), $this->version, 'all');
+        wp_register_style('lsdc-theme', plugins_url('/frontend/assets/css/theme.css', LSDC_BASE), array(), $this->version, 'all');
+        wp_register_style('lsdc-member', plugins_url('/frontend/assets/css/member.css', LSDC_BASE), array(), $this->version, 'all');
+        wp_register_style('lsdc-responsive', plugins_url('/frontend/assets/css/responsive.css', LSDC_BASE), array(), $this->version, 'all');
 
-                wp_enqueue_style('spectre-exp', LSDC_URL . 'backend/assets/lib/spectre/spectre-exp.min.css', array(), '0.5.8', 'all');
-                wp_enqueue_style('spectre-icons', LSDC_URL . 'backend/assets/lib/spectre/spectre-icons.min.css', array(), '0.5.8', 'all');
-                wp_enqueue_style('spectre', LSDC_URL . 'backend/assets/lib/spectre/spectre.min.css', array(), '0.5.8', 'all');
+        // wp_register_style( 'lsdc-tab-swiper', plugins_url( '/assets/frontend/css/tab-swiper.css', LSDC_BASE ), array(), $this->version, 'all' );
+        // wp_register_style( 'swiper', LSDC_URL . 'assets/lib/swiper/swiper.css', array(), '5.3.6', 'all' );
 
-                wp_enqueue_style($this->slug, LSDC_URL . 'backend/assets/css/admin-settings' . $dev_css, array(), $this->version, 'all');
-                wp_enqueue_style('wp-color-picker');
-            }
-        }
-
-        if (strpos(get_post_type(get_the_ID()), 'lsdc-') !== false) {
-            wp_enqueue_style($this->slug . '-product', LSDC_URL . 'backend/assets/css/admin-product' . $dev_css, array(), $this->version, 'all');
-        }
-
-        // Global Admin Styles
-        wp_enqueue_style($this->slug . '-global', LSDC_URL . 'backend/assets/css/admin-global' . $dev_css, array(), $this->version, 'all');
+        // $apperance = get_option('lsdc_appearance_settings');
+        // wp_enqueue_style('lsdc-google-fonts', '//fonts.googleapis.com/css?family=' . esc_attr((empty($apperance['lsdc_fontlist'])) ? 'Poppins' : $apperance['lsdc_fontlist']), array(), $this->version);
     }
 
     /**
-     * Register the JavaScript for the admin area.
+     * Register the JavaScript for the public-facing side of the site.
      *
      * @since    1.0.0
      */
     public function enqueue_scripts()
     {
-        // $dev_js = WP_DEBUG == true ? '.js' : '-min.js';
-        $dev_js = '.js';
 
-        // Load Lib Admin Restrict only LSDCommerce Page
-        if (isset($_GET['page']) && $_GET['page'] == 'lsdcommerce' || strpos(get_post_type(get_the_ID()), 'lsdc-') !== false || isset($_GET['page']) && strpos($_GET['page'], 'lsdc-') !== false) {
-            // Load Admin Js
-            wp_enqueue_script($this->slug, LSDC_URL . 'backend/assets/js/admin' . $dev_js, array('jquery', 'wp-color-picker'), $this->version, false);
-            wp_localize_script($this->slug, 'lsdc_admin', array(
-                'ajax_url' => admin_url('admin-ajax.php'),
-                'ajax_nonce' => wp_create_nonce('lsdc_admin_nonce'),
-                'plugin_url' => LSDC_URL,
-                'currency' => lsdc_get_currency(),
-                'translation' => $this->js_translation(),
-            ));
+        // $url_parts = parse_url( get_site_url() );
 
-            // Enquene Media For Administrator Only
-            if (current_user_can('manage_options')) {
-                wp_enqueue_media();
-            }
-        }
+        // if ( $url_parts && isset( $url_parts['host'] ) ) {
+        //     $domain =  $url_parts['host'];
+        // }
+
+        // wp_enqueue_script('lsdc-helper', plugins_url('/assets/frontend/js/helper.js', LSDC_BASE), array('jquery'), $this->version, false);
+        // wp_register_script('lsdc-payment', plugins_url('/assets/frontend/js/payment.js', LSDC_BASE), array('jquery'), $this->version, false);
+        // wp_register_script('lsdc-navigo', plugins_url('/assets/lib/navigo/navigo.min.js', LSDC_BASE), array(), '8.11.0', false);
+
+        // wp_enqueue_script($this->slug, plugins_url('/assets/frontend/js/public.js', LSDC_BASE), array('jquery'), $this->version, false);
+        // wp_localize_script($this->slug, 'lsdc_public', array(
+        //     'plugin_url' => LSDC_URL,
+        //     'ajax_wp' => admin_url('admin-ajax.php'),
+        //     'ajax_url' => LSDC_URL . 'core/utils/lsdc-ajax.php',
+        //     'ajax_nonce' => wp_create_nonce('lsdc-ajax-nonce'),
+        //     'rest_url' => get_rest_url(),
+        //     'domain_url' => isset($domain) ? $domain : get_site_url(),
+        //     'payment_url' => get_permalink(lsdc_get_settings( 'general_settings', 'payment_page' ) ),
+        //     'payment_default' => lsdc_payment_default(),
+        //     'options' => array(
+        //         'popup' => lsdc_get_switch_option('popup_notification')
+        //     ),
+        //     'translation' => array(
+        //         'cart_empty' => __('Cart Empty', 'lsdcommerce'),
+        //         'select_method' => __('Please select a payment method', 'lsdcommerce'),
+        //         'agree_terms' => __('You must agree Terms and Conditions', 'lsdcommerce'),
+        //         'form_error' => __('Please fill a form correctly', 'lsdcommerce'),
+        //         'minimum_error' => __('Minimum Donation', 'lsdcommerce'),
+        //         'pay_error' => __("Failed to Processing Payment", 'lsdcommerce'),
+        //         'popup_was_donate' => __("has contributed an amount", 'lsdcommerce'),
+        //         'on' => __("on", 'lsdcommerce'),
+        //         'program' => __("Program", 'lsdcommerce'),
+        //     ),
+        //     'currency' => array(
+        //         'symbol' => lsdc_currency_display(),
+        //         'format' => lsdc_currency_display('format'),
+        //         'currency' => lsdc_get_currency(),
+        //     ),
+        // ));
+        
+        // // Popup Notification
+        // if (lsdc_get_switch_option('popup_notification')) {
+        //     wp_enqueue_script('lsdc-popup', plugins_url('/assets/frontend/js/popup.js', LSDC_BASE), array('jquery'), $this->version, false);
+        // }
+
+        // wp_register_script( 'swiper', plugins_url( '/assets/lib/swiper/swiper.js', LSDC_BASE ), array( 'jquery' ), '5.3.6', false );
+        // wp_register_script( 'lsdc-swiper', plugins_url( '/assets/frontend/js/main.js', LSDC_BASE ), array( 'jquery' ), $this->version, false );
     }
 
     /**
-     * Javascript Translation Stack
+     * Setting Unique Code
      *
-     * @return array
-     */
-    public function js_translation()
-    {
-        return array(
-            'delete_report' => __('Are you sure you want to delete this item ?', 'lsdcommerce'),
-        );
-    }
-
-    /**
-     * Register Menu in Admin Area
-     *
-     * LSDCommerce Settings
-     * Products
-     * Orders
-     *
-     * @since 1.0.0
+     * @param array $extras
      * @return void
      */
-    public function register_admin_menu()
+    function set_unique_code($extras)
     {
-        // Menu LSDCommerce in WP-ADMIN
-        add_menu_page(
-            $this->name,
-            $this->name,
-            'manage_options',
-            $this->slug,
-            [$this, 'admin_menu_callback'],
-            LSDC_URL . 'backend/assets/images/lsdcommerce.png',
-            45
-        );
+        // //Getting ID from Cart
+        // if (isset($_COOKIE['_lsdc_cart'])) {
+        //     $carts = (array) json_decode(stripslashes($_COOKIE['_lsdc_cart']));
+        //     if ($carts) {
+        //         $program_id = array_keys($carts)[0];
+        //     }
+        // }
 
-        $awaiting_mod = (get_option('lsdcommerce_order_unread') > 0) ? abs(get_option('lsdcommerce_order_unread')) : 0;
+        // $program_id = isset( $program_id ) ? $program_id : null;
 
-        // Menu Products
-        add_menu_page(
-            __('Produk', 'lsdcommerce'),
-            __('Produk', 'lsdcommerce'),
-            'manage_options',
-            'edit.php?post_type=product',
-            '',
-            LSDC_URL . 'backend/assets/svg/product.svg',
-            50
-        );
+        // $settings = get_option('lsdc_appearance_settings');
+        // $option = isset($settings['lsdc_unique_code']) ? esc_attr($settings['lsdc_unique_code']) : 'off';
+        // $minus = isset($settings['lsdc_unique_code_minus']) ? esc_attr($settings['lsdc_unique_code_minus']) : 'off';
 
-        // Menu Orders
-        add_menu_page(
-            __('Pesanan', 'lsdcommerce'),
-            $awaiting_mod ? sprintf((__('Pesanan', 'lsdcommerce') . ' <span class="awaiting-mod">%d</span>'), $awaiting_mod) : __('Pesanan', 'lsdcommerce'),
-            'manage_options',
-            'edit.php?post_type=lsdcommerce_order',
-            '',
-            LSDC_URL . 'backend/assets/svg/order.svg',
-            50
-        );
-
-        // Submenu Product -> Categories
-        add_submenu_page(
-            'edit.php?post_type=product',
-            __('Kategori', 'lsdcommerce'),
-            __('Kategori', 'lsdcommerce'),
-            'manage_options',
-            'edit-tags.php?taxonomy=product-category&post_type=product',
-            ''
-        );
-
-        // Add Shortcode List to wp-admin > LSDCommerce > Appearence
-        require_once LSDC_PATH . 'backend/admin/class-shortcode-lists.php';
-        Admin\Shortcode_Lists::addShortcodeList($this->slug, $this->name, array(
-            ['shortcode' => '[lsdcommerce_products]', 'description' => __("Menampilkan Produk", 'lsdcommerce')],
-            ['shortcode' => '[lsdcommerce_checkout]', 'description' => __("Menampilkan Pembayaran", 'lsdcommerce')],
-        ));
-
-        // Add Switch Options to wp-admin > LSDCommerce > Appearence
-        require_once LSDC_PATH . 'backend/admin/class-switch-options.php';
-        Admin\Switch_Options::addOptions($this->slug, $this->name, array(
-            'lsdc_unique_code' => ['name' => __('Kode Unik', 'lsdcommerce'), 'desc' => __('Matikan/Hidupkan Kode Unik', 'lsdcommerce'), 'override' => false],
-        ));
-
+        // // Zakat Exception
+        // if(get_post_type( $program_id ) != 'lsdc-zakat' ){
+        //     if ($option != 'off') {
+        //         $unique = array(
+        //             array(
+        //                 'title' => 'Unique Code',
+        //                 'price' => lsdc_generate_uniquecode(),
+        //                 'operation' => $minus == 'on' ? '-' : '+',
+        //             ),
+        //         );
+    
+        //         $extras = is_array($extras) ? $extras : [];
+        //         $extras = array_merge($unique, $extras);
+        //     }
+        // }
+      
+        // return $extras;
     }
 
+
+
     /**
-     * Including settings LSDCommerce page
-     * when clikcing menu LSDDOnation
+     * Load ROot CSS for Theming
      *
      * @return void
      */
-    public function admin_menu_callback()
+    public function header()
     {
-        include_once LSDC_PATH . 'backend/admin/tabs/common.php';
+        // Appearance Settings
+        $appearance = get_option('lsdc_appearance_settings', true);
+
+        $font = !isset($appearance['lsdc_theme_font']) || $appearance['lsdc_theme_font'] == null ? 'Poppins' : $appearance['lsdc_theme_font'];
+        $background = !isset($appearance['lsdc_theme_bg']) || $appearance['lsdc_theme_bg'] == null ? 'transparent' : $appearance['lsdc_theme_bg'];
+        $theme = !isset($appearance['lsdc_theme_color']) || $appearance['lsdc_theme_color'] == null ? '#fe5301' : $appearance['lsdc_theme_color'];
+
+        $lighter = lsdc_adjust_brightness($theme, 50);
+        $darker = lsdc_adjust_brightness($theme, -40);
+
+        echo lsdc_minify_css('<style id="lsdcommerce-pre-css" type="text/css">
+                :root {
+                    --lsdc-color: ' . $theme . ';
+                    --lsdc-lighter-color: ' . $lighter . ';
+                    --lsdc-darker-color: ' . $darker . ';
+                    --lsdc-bg-color: ' . $background . ';
+                }
+
+                #lsdcommerce,
+                #lsdc-payment{
+                    background: ' . $background . ' !important;
+                }
+
+                .lsdc-content,
+                .lsdc-content h1,
+                .lsdc-content h2,
+                .lsdc-content h4,
+                .lsdc-content h5,
+                .lsdc-content h6,
+                .lsdc-container h3,
+                .lsdc-container h4,
+                .lsdc-container h5,
+                .lsdc-container h6,
+                .lsdc-font,
+                .lsdc-btn{
+                    font-family: -apple-system, BlinkMacSystemFont, "' . $font . '", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+                }
+
+                .lsdc-theme-color{
+                    color: ' . $theme . ' !important;
+                }
+
+                .lsdc-outline{
+                    border: 1px solid ' . $theme . ' !important;
+                    background: transparent  !important;
+                    color: ' . $theme . ' !important;
+                }
+
+                .lsdc-primary{
+                    background: ' . $theme . ' !important;
+                }
+
+                .lsdc-bg-color{
+                    background: ' . $background . ' !important;
+                }
+            </style>');
     }
 
     /**
-     * Including Orders File
-     * When Clicking Menu Orders
+     * Registering Frontend AJAX
      *
      * @return void
      */
-    public function admin_menu_orders()
+    public function register_ajax()
     {
-        include_once LSDC_PATH . 'core/admin/orders/orders.php';
+        require_once 'class-ajax.php';
     }
 }
+?>

@@ -156,7 +156,7 @@ function lsdd_substr_word(string $text, int $length)
     if ($rpos > 0) {
         $text = substr($text, 0, $rpos) . '...';
     }
-   
+
     return $text;
 }
 
@@ -166,34 +166,34 @@ function lsdd_substr_word(string $text, int $length)
  * @param string $html
  * @return string html
  */
-function lsdd_html_clean( string $html )
+function lsdd_html_clean(string $html)
 {
     $clean = preg_replace('/<!--(.|\s)*?-->/', '', $html);
     $clean = preg_replace('/\s+/', ' ', $clean);
     return trim(preg_replace('/>\s</', '><', $clean));
 }
 
-
 function lsdd_check_reports()
 {
     global $wpdb;
     if (in_array('lsddonation_reports', $wpdb->tables)) {
         return true;
-    }else{
+    } else {
         return false;
     }
 }
 
 /**
  * Sanitize ID
- * 
+ *
  * @param string $id
  * @return string LSD Plugins -> lsd_plugins
  */
-function lsdd_sanitize_id( $id ){
-    $id = str_replace( " ", "_", $id);
-    $id = preg_replace("/[^a-z_]+/i", "", $id );
-    return sanitize_title( strtolower($id));
+function lsdd_sanitize_id($id)
+{
+    $id = str_replace(" ", "_", $id);
+    $id = preg_replace("/[^a-z_]+/i", "", $id);
+    return sanitize_title(strtolower($id));
 }
 
 /**
@@ -204,8 +204,52 @@ function lsdd_sanitize_id( $id ){
  * @param string $message
  * @return void
  */
-function lsdd_generate_log( $name, $path, $message ){
-	if(is_array($message)) $message = json_encode($message); 
-	file_put_contents( $path . '/log-' . $name . '.txt', date( 'Y-m-d H:i:s', current_time( 'timestamp', 0 ) ) . " :: " . $message . PHP_EOL, FILE_APPEND );
+function lsdd_generate_log($name, $path, $message)
+{
+    if (is_array($message)) {
+        $message = json_encode($message);
+    }
+
+    file_put_contents($path . '/log-' . $name . '.txt', date('Y-m-d H:i:s', current_time('timestamp', 0)) . " :: " . $message . PHP_EOL, FILE_APPEND);
 }
 
+/**
+ * Increases or decreases the brightness of a color by a percentage of the current brightness.
+ * Source : https://stackoverflow.com/questions/3512311/how-to-generate-lighter-darker-color-with-php
+ */
+function lsdc_adjust_brightness($hex, $steps)
+{
+    // Steps should be between -255 and 255. Negative = darker, positive = lighter
+    $steps = max(-255, min(255, $steps));
+
+    // Normalize into a six character long hex string
+    $hex = str_replace('#', '', $hex);
+    if (strlen($hex) == 3) {
+        $hex = str_repeat(substr($hex, 0, 1), 2) . str_repeat(substr($hex, 1, 1), 2) . str_repeat(substr($hex, 2, 1), 2);
+    }
+
+    // Split into three parts: R, G and B
+    $color_parts = str_split($hex, 2);
+    $return = '#';
+
+    foreach ($color_parts as $color) {
+        $color = hexdec($color); // Convert to decimal
+        $color = max(0, min(255, $color + $steps)); // Adjust color
+        $return .= str_pad(dechex($color), 2, '0', STR_PAD_LEFT); // Make two char hex code
+
+    }
+
+    return $return;
+}
+
+/**
+ * Source : https://datayze.com/howto/minify-css-with-php
+ */
+function lsdc_minify_css($css)
+{
+    $css = preg_replace('/\/\*((?!\*\/).)*\*\//', '', $css); // negative look ahead
+    $css = preg_replace('/\s{2,}/', ' ', $css);
+    $css = preg_replace('/\s*([:;{}])\s*/', '$1', $css);
+    $css = preg_replace('/;}/', '}', $css);
+    return $css;
+}

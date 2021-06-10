@@ -10,7 +10,7 @@ class Order
 {
     public function __construct()
     {
-        $this->register();
+        add_action('init', [$this, 'register']);
      
         // add_filter( 'add_meta_boxes', [ $this, 'metabox_register' ] );
         // add_action( 'save_post', [ $this, 'metabox_save' ] );
