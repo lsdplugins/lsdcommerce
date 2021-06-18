@@ -4,43 +4,40 @@
 
 [*] LSDCommerce Pro
   [ ] Card, List, Grid View
-
-
-# 0.5.0 - 12 Jun 2021 [ Fixing and Enhance ]
-[+] Pembayaran
+[*] Pembayaran
   [ ] Shopee Minta Dana
+[ ] Support WPML Languange
 
-# 0.4.0 - 11 Jun 2021
-[+] Membership
-  [ ] Order History
-  [ ] Shipping History
-  [ ] Password Reset
-  [ ] Tab Extendable
 
-# 0.3.0 - 12 Jun 2021
+# 0.5.0 - 14 Jun 2021 [ Integrate ]
 [+] Order Management
   [ ] Order Table Scheme
   [ ] Order PostTypes `lsdcommerce_order`
   [ ] Design Pattern Multiple Storage Data { Custom Table and PostType }
+[ ] Checkout Shortcode
+  [ ] Cart Management [ REST ]
+  [ ] Add Cart via URL
+  [ ] Add Cart via AJAX
+  [ ] REST Cart [ POST, GET, DELETE, PATCH, PUT ]
+  [ ] Checkout Session
+  [ ] Personal Data
+  [ ] Shipping 
+  [ ] Payment
+  [ ] Checkout REST
+  [ ] Processing [ Schedule Store Data Order, Payment Gateway Request, Notification Service ]
+[ ] Confirmation [ Instruction, Status, Thankyou ]
+
+# 0.3.0 - 11 Jun 2021
+[+] Membership
+  [ ] Order History
+  [ ] Shipping History
+  [ ] Password Reset
+  [+] Tab Extendable
 
 # 0.2.0 - 10 Jun 2021
 [+] StoreFront
-  [ ] Cart Management [ REST ]
-    [ ] Add Cart via URL
-    [ ] Add Cart via AJAX
-  [ ] REST Cart [ POST, GET, DELETE, PATCH, PUT ]
-
   [#] Listing Product
   [#] Detail Product
-
-  [ ] Checkout Shortcode
-    [ ] Checkout Session
-    [ ] Personal Data
-    [ ] Shipping 
-    [ ] Payment
-    [ ] Checkout REST
-    [ ] Processing [ Schedule Store Data Order, Payment Gateway Request, Notification Service ]
-  [ ] Confirmation [ Instruction, Status, Thankyou ]
   
 # 0.1.2 - 3 Jun 2021
 [+] Admin Settings

@@ -264,7 +264,7 @@ function lsdc_pad(num, size) {
 		var that = this;
 
 		$.post(lsdc_admin.ajax_url, {
-			action: 'lsdc_admin_appearance_save',
+			action: 'lsdcommerce_appearance_save',
 			appearance: $("#appearance form").serialize(),
 			security: lsdc_admin.ajax_nonce,
 		}, function (response) {

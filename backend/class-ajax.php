@@ -13,13 +13,9 @@ class AJAX
     public function __construct()
     {
         add_action('wp_ajax_lsdcommerce_store_save', [$this, 'admin_store_settings']);
-
-        add_action('wp_ajax_lsdc_admin_appearance_save', [$this, 'admin_appearance_save']);
+        add_action('wp_ajax_lsdcommerce_appearance_save', [$this, 'admin_appearance_save']);
 
         // add_action('wp_ajax_lsdc_admin_option_save', [$this, 'admin_option_save']);
-
-
-
 
         // add_action('wp_ajax_lsdc_payment_delete', [$this, 'admin_payment_delete']);
         // add_action('wp_ajax_lsdc_payment_settings', [$this, 'admin_payment_settings']);
@@ -63,13 +59,12 @@ class AJAX
         // sanitize array: Any of the WordPress data sanitization functions can be used here
         $payments = array_map('esc_attr', $payments);
         $success = update_option('lsdcommerce_payment_sorted', $payments);
-        
+
         wp_send_json_success();
 
         wp_die();
     }
 
-    
     /**
      * Change Payment Method Status
      */
@@ -133,7 +128,7 @@ class AJAX
         }
         $status[$id] = $state;
         update_option('lsdcommerce_notification_status', $status);
-        
+
         wp_send_json_success();
 
         wp_die();
@@ -220,7 +215,6 @@ class AJAX
         wp_die();
     }
 
-
     public function admin_payment_manage()
     {
         if (!check_ajax_referer('lsdc_admin_nonce', 'security')) {
@@ -232,8 +226,8 @@ class AJAX
 
         $obj = $payment_settings[$payment_id];
         $class = "LSDCommerce\\" . $obj['template_class'];
-        
-        if ( class_exists($class) ) {
+
+        if (class_exists($class)) {
             $payment = new $class;
             echo $payment->manage($payment_id);
         } else {
@@ -369,7 +363,7 @@ class AJAX
 
             //     $item = array_map('esc_attr', $item);
             // } else {
-                $item = sanitize_text_field($item);
+            $item = sanitize_text_field($item);
             // }
             $sanitize[$key] = $item; //restructure
         }

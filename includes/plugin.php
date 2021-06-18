@@ -46,30 +46,29 @@ final class Plugin
         register_activation_hook(LSDC_BASE, [$lsdcommerce, 'activation']);
         register_deactivation_hook(LSDC_BASE, [$lsdcommerce, 'uninstall']);
 
-        // Bind to Init
+        // Bind to Loaded
         add_action('plugins_loaded', [$lsdcommerce, 'loaded']);
 
         /*************** GLOBAL /****************/
-        // TODO :: Cleanup Helper Function
-        // require_once LSDC_PATH . 'core/modules/utils/class-logger.php';
+        require_once LSDC_PATH . 'includes/common/class-logger.php';
         require_once LSDC_PATH . 'includes/common/class-i18n.php';
 
-        // TODO :: Server Timing for Performance
         require_once LSDC_PATH . 'includes/helpers/currency.php';
         require_once LSDC_PATH . 'includes/helpers/price.php';
         require_once LSDC_PATH . 'includes/helpers/payment.php';
         require_once LSDC_PATH . 'includes/helpers/getter.php';
         require_once LSDC_PATH . 'includes/helpers/setter.php';
         require_once LSDC_PATH . 'includes/helpers/helper.php';
+        require_once LSDC_PATH . 'includes/helpers/thirdy.php';
 
         // Register Post Type
         require_once LSDC_PATH . 'includes/common/class-posttype-product.php';
-        // require_once LSDC_PATH . 'includes/common/class-posttype-order.php';
+        require_once LSDC_PATH . 'includes/common/class-posttype-order.php';
         // require_once LSDC_PATH . 'includes/common/class-usages.php';
 
         // Load FrontEnd Class [Only for FrontEnd Needs]
         if (is_admin()) {
-            require_once LSDC_PATH . 'backend/admin/class-admin.php';
+            require_once LSDC_PATH . 'backend/class-admin.php';
             Admin::register($plugin);
         }
 
@@ -95,17 +94,18 @@ final class Plugin
         // require_once LSDC_PATH . 'backend/modules/shipping/class-shipping-pickup.php'; // ambil ketempat
 
         // Load Notification Services
-        // require_once LSDC_PATH . '/core/services/scheduler/scheduler.php';
+        // require_once LSDC_PATH . '/includes/services/scheduler/scheduler.php';
 
         // Load Global Class
         // require_once LSDC_PATH . '/includes/wp.php';
         // Wordpress::register();
 
+        // Load FrontEnd Class [Only for FrontEnd Needs]
         if (!is_admin()) {
-            // Load FrontEnd Class [Only for FrontEnd Needs]
             require_once LSDC_PATH . 'frontend/class-frontend.php';
             Frontend::register($plugin);
 
+            // Member
             require_once LSDC_PATH . 'frontend/modules/member/tab-functions.php';
 
             // Shortcodes

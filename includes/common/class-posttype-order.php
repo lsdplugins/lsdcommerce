@@ -6,12 +6,13 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class Order
+class Posttype_Order
 {
     public function __construct()
     {
         add_action('init', [$this, 'register']);
-     
+
+
         // add_filter( 'add_meta_boxes', [ $this, 'metabox_register' ] );
         // add_action( 'save_post', [ $this, 'metabox_save' ] );
         // add_action( 'new_to_publish', [ $this, 'metabox_save' ] );
@@ -21,11 +22,11 @@ class Order
     }
 
     /**
-     * Registering Posttype Order
+     * Registering Posttype Pesanan
      *
      * @return void
      */
-    protected function register()
+    public function register()
     {
         $supports = array(
             'title',
@@ -34,16 +35,16 @@ class Order
         );
 
         $labels = array(
-            'name' => _x('Orders', 'plural', 'lsdcommerce'),
-            'singular_name' => _x('Order', 'singular', 'lsdcommerce'),
-            'add_new' => _x('New Order', 'Add Order', 'lsdcommerce'),
-            'add_new_item' => __('Add Order', 'lsdcommerce'),
-            'new_item' => __('New Order', 'lsdcommerce'),
-            'edit_item' => __('Edit Order', 'lsdcommerce'),
-            'view_item' => __('View Order', 'lsdcommerce'),
-            'all_items' => __('All Order', 'lsdcommerce'),
-            'search_items' => __('Find Order', 'lsdcommerce'),
-            'not_found' => __('Order Not Found.', 'lsdcommerce'),
+            'name' => _x('Pesanan', 'plural', 'lsdcommerce'),
+            'singular_name' => _x('Pesanan', 'singular', 'lsdcommerce'),
+            'add_new' => _x('Pesanan Baru', 'Tambah Pesanan', 'lsdcommerce'),
+            'add_new_item' => __('Tambah Pesanan', 'lsdcommerce'),
+            'new_item' => __('Pesanan Baru', 'lsdcommerce'),
+            'edit_item' => __('Edit Pesanan', 'lsdcommerce'),
+            'view_item' => __('Lihat Pesanan', 'lsdcommerce'),
+            'all_items' => __('Semua Pesanan', 'lsdcommerce'),
+            'search_items' => __('Cari Pesanan', 'lsdcommerce'),
+            'not_found' => __('Pesanan tidak ditemukan.', 'lsdcommerce'),
         );
 
         $args = array(
@@ -64,23 +65,23 @@ class Order
         );
 
         register_post_type('lsdcommerce_order', $args);
-        $this->flush();
+        // $this->flush();
     }
 
-    protected function flush()
+    public function flush()
     {
-        if (get_option('lsdcommerce_permalink_flush')) {
-            // Force and Flush
-            global $wp_rewrite;
-            $wp_rewrite->set_permalink_structure('/%postname%/');
-            update_option("rewrite_rules", false);
-            $wp_rewrite->flush_rules(true);
+        // if (get_option('lsdcommerce_permalink_flush')) {
+        //     // Force and Flush
+        //     global $wp_rewrite;
+        //     $wp_rewrite->set_permalink_structure('/%postname%/');
+        //     update_option("rewrite_rules", false);
+        //     $wp_rewrite->flush_rules(true);
 
-            delete_option('lsdcommerce_permalink_flush');
-        }
+        //     delete_option('lsdcommerce_permalink_flush');
+        // }
     }
 
-    protected function js_inject()
+    public function js_inject()
     {
         ?>
         <script>
@@ -177,5 +178,5 @@ class Order
     }
 
 }
-new Order;
+new Posttype_Order;
 ?>

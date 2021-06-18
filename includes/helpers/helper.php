@@ -11,7 +11,7 @@
  * @param boolean $extra
  * @return string html
  */
-function lsdd_pagination(string $url, int $current = 1, int $perpage = 5, int $total = 6, string $classitem = 'page-item', string $active = 'active', bool $extra = false)
+function lsdc_pagination(string $url, int $current = 1, int $perpage = 5, int $total = 6, string $classitem = 'page-item', string $active = 'active', bool $extra = false)
 {
     $part = ceil($total / $perpage);
     $middle = ceil($part / 2);
@@ -30,7 +30,7 @@ function lsdd_pagination(string $url, int $current = 1, int $perpage = 5, int $t
     // Disale Next on Last == Current
 
     if ($prev) {
-        $pagination .= '<li class="' . $classitem . '"><a href="' . $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'step=' . ($current - 1) . $extra . '">' . __('Prev', 'lsdd') . '</a></li>';
+        $pagination .= '<li class="' . $classitem . '"><a href="' . $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'step=' . ($current - 1) . $extra . '">' . __('Prev', 'lsdc') . '</a></li>';
     }
 
     if ($part == 1) { // Minium Item
@@ -93,7 +93,7 @@ function lsdd_pagination(string $url, int $current = 1, int $perpage = 5, int $t
     }
 
     if ($next) {
-        $pagination .= '<li class="' . $classitem . '"><a href="' . $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'step=' . ($current + 1) . $extra . '">' . __('Next', 'lsdd') . '</a></li>';
+        $pagination .= '<li class="' . $classitem . '"><a href="' . $url . (parse_url($url, PHP_URL_QUERY) ? '&' : '?') . 'step=' . ($current + 1) . $extra . '">' . __('Next', 'lsdc') . '</a></li>';
     }
 
     $pagination .= '<ul>';
@@ -109,7 +109,7 @@ function lsdd_pagination(string $url, int $current = 1, int $perpage = 5, int $t
  * @param integer $post_id
  * @return void
  */
-function lsdd_image_upload(string $path, string $filename, int $post_id)
+function lsdc_image_upload(string $path, string $filename, int $post_id)
 {
     $upload_dir = wp_upload_dir();
     $image_data = file_get_contents($path);
@@ -144,7 +144,7 @@ function lsdd_image_upload(string $path, string $filename, int $post_id)
  * @param integer $length
  * @return string with ...
  */
-function lsdd_substr_word(string $text, int $length)
+function lsdc_substr_word(string $text, int $length)
 {
     if (strlen($text) < $length) {
         return $text;
@@ -166,17 +166,17 @@ function lsdd_substr_word(string $text, int $length)
  * @param string $html
  * @return string html
  */
-function lsdd_html_clean(string $html)
+function lsdc_html_clean(string $html)
 {
     $clean = preg_replace('/<!--(.|\s)*?-->/', '', $html);
     $clean = preg_replace('/\s+/', ' ', $clean);
     return trim(preg_replace('/>\s</', '><', $clean));
 }
 
-function lsdd_check_reports()
+function lsdc_check_reports()
 {
     global $wpdb;
-    if (in_array('lsddonation_reports', $wpdb->tables)) {
+    if (in_array('lsdconation_reports', $wpdb->tables)) {
         return true;
     } else {
         return false;
@@ -189,7 +189,7 @@ function lsdd_check_reports()
  * @param string $id
  * @return string LSD Plugins -> lsd_plugins
  */
-function lsdd_sanitize_id($id)
+function lsdc_sanitize_id($id)
 {
     $id = str_replace(" ", "_", $id);
     $id = preg_replace("/[^a-z_]+/i", "", $id);
@@ -204,7 +204,7 @@ function lsdd_sanitize_id($id)
  * @param string $message
  * @return void
  */
-function lsdd_generate_log($name, $path, $message)
+function lsdc_generate_log($name, $path, $message)
 {
     if (is_array($message)) {
         $message = json_encode($message);
@@ -252,4 +252,53 @@ function lsdc_minify_css($css)
     $css = preg_replace('/\s*([:;{}])\s*/', '$1', $css);
     $css = preg_replace('/;}/', '}', $css);
     return $css;
+}
+
+/**
+ * Formatting User Name ( Nama Depan Nama Belakang  = namadepannamabelakang )
+ * Block : Format | User
+ * @param string $fullname
+ */
+function lsdc_format_username($fullname)
+{
+    $names = explode(' ', $fullname);
+    $names = array_map('esc_attr', $names); // Sanitize Array
+    return strtolower(implode('', $names));
+}
+
+/**
+ * Formatting Indonesian Phone Number
+ * Block : Format
+ * @param string $fullname
+ */
+function lsdc_format_phone($phone)
+{
+    $phone = (string) $phone;
+
+    if ( strpos($phone, '+62') !== false )
+    {
+        $format = str_replace( '+62', '0' );
+    }else if ( isset( $phone[0] ) && $phone[0] != '0')
+    {
+        if ( isset( $phone[1] ) && $phone[1] != '6')
+        {
+            $format = '0' . $phone;
+        }
+        else
+        {
+            $format = $phone;
+        }
+    }
+    else
+    {
+        $format = $phone;
+    }
+
+    // Checking Phone Length
+    if (strlen($phone) > 13 || strlen($phone) < 11)
+    {
+        $format = null;
+    }
+
+    return trim($format);
 }

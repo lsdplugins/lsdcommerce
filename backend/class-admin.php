@@ -63,7 +63,7 @@ class Admin
                 
         // Load Required File
         require_once LSDC_PATH . 'backend/admin/tabs.php';
-        require_once LSDC_PATH . 'backend/admin/class-ajax.php';
+        require_once LSDC_PATH . 'backend/class-ajax.php';
         // require_once LSDC_PATH . 'backend/admin/class-autosetup.php';
         // require_once LSDC_PATH . 'backend/admin/class-dashboard.php';
         // require_once LSDC_PATH . 'backend/admin/class-updater.php';
